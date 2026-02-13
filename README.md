@@ -2,9 +2,9 @@
 
 ## Project Overview
 
-This repository houses the foundational planning and design documents for the Bermuda Monetary Authority's (BMA) Scenario-Based Approach (SBA) Assessment Model. The primary goal of this project is to develop a state-of-the-art, robust, and flexible software tool that will enable the BMA to effectively assess the soundness and compliance of insurance groups' SBA implementations, as well as to conduct its own independent stress testing and scenario analysis.
+This repository houses the planning, design, and analysis documents for the Bermuda Monetary Authority's (BMA) Scenario-Based Approach (SBA) Assessment Model. The project's primary goal is to develop a state-of-the-art software platform that balances two critical needs: a robust, feature-rich web application for BMA analysts and a high-performance computational engine for intensive financial modeling.
 
-The model is designed to be the BMA's definitive tool for ensuring financial stability within the Bermudian insurance market by providing comprehensive insights into insurers' liability valuations and capital requirements under various economic and market conditions.
+To achieve this, the project has adopted a **hybrid microservice architecture**. The application layer, including the user interface, data validation, and reporting, will be built using **Python**, leveraging its mature and productive ecosystem. The computationally intensive core, responsible for cash flow projections and stochastic modeling, will be developed in **Julia** to achieve the highest level of performance. This dual approach ensures both rapid application development and world-class computational speed, positioning the BMA to effectively assess insurance group solvency and conduct independent stress testing.
 
 ## Key Goals & Features
 
@@ -18,33 +18,42 @@ The model is designed to be the BMA's definitive tool for ensuring financial sta
 
 ## Technology Stack
 
-The model is being developed using a modern microservices architecture with the following core technologies:
+The model is being developed using a modern microservices architecture that separates application logic from high-performance computation.
 
-*   **Backend:** Python 3.9+ (Flask/FastAPI)
-*   **Frontend:** React, Redux, TypeScript
-*   **Database:** PostgreSQL
-*   **Cloud Platform:** AWS (with Kubernetes for orchestration, S3 for storage, RDS for database)
-*   **CI/CD:** Jenkins, GitHub Actions
-*   **Key Libraries:** NumPy, pandas (for calculations); scipy.stats (for stochastic modeling); Cerberus/Pydantic (for data validation); Jinja2, WeasyPrint (for reporting).
+*   **Application Layer (Python):**
+    *   **Backend Framework:** FastAPI
+    *   **Key Libraries:** pandas (data manipulation), Pydantic (data validation), Jinja2/WeasyPrint (reporting).
+    *   **Database:** PostgreSQL
+    *   **Cloud Platform:** AWS (Kubernetes, S3, RDS)
+    *   **CI/CD:** Jenkins, GitHub Actions
+
+*   **Computational Layer (Julia):**
+    *   **Core:** High-performance services for cash flow projections and stochastic modeling.
+    *   **Architecture:** Internal, containerized microservices called by the Python application layer.
+
+*   **Frontend:**
+    *   React, Redux, TypeScript
 
 ## Repository Structure
 
-*   `README.md`: This overview of the project.
-*   `BMA_SBA_Consolidated_Guide.md`: A comprehensive guide to the BMA's Scenario-Based Approach (SBA) regulation, synthesizing information from official BMA documents.
-*   `Model_doc/`: Contains detailed planning and design documents for the SBA Assessment Model:
-    *   `BMA_SBA_Model_PRD.md`: Product Requirements Document
-    *   `BMA_SBA_Model_SDD.md`: Software Design Document
-    *   `BMA_SBA_Model_Project_Plan.md`: Project Plan
-    *   `BMA_SBA_Model_Test_Plan.md`: Test Plan
+This repository contains the analysis and planning documents that led to the adoption of the hybrid architecture.
+
+*   `README.md`: This project overview.
+*   `BMA_doc/`: A collection of key reference documents, including a consolidated guide to the BMA's SBA regulation, illustrative calculations, and official source documents from the BMA.
+*   `Python_Implementation/`: Contains the initial planning and design documents (PRD, SDD, etc.) for building the application layer in Python.
+*   `Julia_Implementation/`: Contains the initial planning and design documents for building the computational engine in Julia.
+*   `Hybrid_Implementation/`: Contains documents related to the hybrid strategy, including the final `Recommendation_Analysis.md` which outlines the strategic decision to adopt the Python + Julia model.
+*   `Archive/`: Contains older summary documents that have been superseded by the materials in `BMA_doc/`.
 
 ## Current Status
 
-The project is in the detailed planning and design phase. All foundational requirements, software design, project management, and testing strategies have been documented and refined. The next stage involves the commencement of model building and implementation based on these approved plans.
+The project has completed a crucial technology evaluation phase. After analyzing pure Python, pure Julia, and hybrid approaches, the decision has been made to proceed with a **hybrid Python/Julia microservice architecture**. The foundational planning and design documents for the separate components are in place.
 
 ## Next Steps
 
-*   Commence development of the core microservices.
-*   Implement the scenario plugin architecture.
-*   Develop robust data ingestion and validation mechanisms.
+*   Commence development of the core Python/FastAPI microservices for the main application layer.
+*   Begin implementation of the Julia microservices for the computational core.
+*   Define and build the internal API for communication between the Python and Julia services.
+*   Develop robust data ingestion and validation mechanisms in the Python layer.
 *   Build the user interface and reporting capabilities.
-*   Execute the defined test plan to ensure quality and compliance.
+*   Execute the defined test plans for each component to ensure quality and compliance.
