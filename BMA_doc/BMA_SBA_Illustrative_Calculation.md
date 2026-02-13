@@ -24,7 +24,9 @@ To back this liability, the insurer has purchased a single, high-quality corpora
 *   **Asset Yield:** 4.5%
 
 ### 2.3. Key Assumptions
-*   **Initial Bond Value:** The market value of the bond at the start (T=0) is the present value of its future cash flows, discounted at its own yield of 4.5%. This is calculated using the standard Discounted Cash Flow (DCF) method:
+*   **Base Risk-Free Rate (RFR) and Credit Spread:** For the purpose of establishing the initial market value of the bond at T=0, we assume a base Risk-Free Rate (RFR) of 3.0% and a credit spread of 1.5%. This results in the initial asset yield of 4.5%.
+*   **A Single, Fixed Initial Market Value (T=0):** This is a critical concept in the SBA. The starting point for the assessment is the insurer's existing asset portfolio, which has a single, observable market value at time T=0. The five interest rate scenarios are *hypothetical future pathways* that branch out from this single T=0 reality. Therefore, we calculate the bond's market value **only once** based on the T=0 asset yield. This value ($4,480) is the fixed starting point for the assets in **every** scenario. The scenarios will affect the *reinvestment rate* for cash and the *market value* if assets need to be sold mid-projection, but they do not change the initial T=0 value.
+*   **Initial Bond Value Calculation:** The market value of the bond at the start (T=0) is the present value of its future cash flows, discounted at its own yield of 4.5%. This is calculated using the standard Discounted Cash Flow (DCF) method:
     
     `MV = C/(1+y)¹ + C/(1+y)² + C/(1+y)³ + C/(1+y)⁴ + (C+P)/(1+y)⁵`
     
