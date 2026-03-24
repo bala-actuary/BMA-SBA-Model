@@ -66,6 +66,23 @@ BMA-SBA-Model/
 │   ├── NAIC_CFT_ComprehensiveGuide.md       # NAIC Cash Flow Testing guide
 │   └── BMA_SBA_vs_NAIC_CFT_Comparison.md    # BMA SBA vs NAIC CFT comparison
 │
+├── Algorithm_Specs/             # ** Implementation-ready algorithm specifications **
+│   ├── 01_Yield_Curve_Construction.md  # QuantLib curves, 9 scenarios, z-spread overlay
+│   ├── 02_Projection_Engine.md         # Core projection loop, C0 root-finding, golden test
+│   ├── 02a_Reinvestment_Strategy.md    # CashOnly + ProRata reinvestment strategies
+│   ├── 02b_Disinvestment_Waterfall.md  # 6-tier liquidation, forced sales, Tier 3 exclusion
+│   ├── 03_Credit_Costs_DD.md           # Default & downgrade costs, phase-in, BMA tables
+│   ├── 04_Spread_Cap_Enforcement.md    # 35bps regulatory cap on SBA spread
+│   ├── 05_Lapse_Cost_LCR.md           # Lapse cost formula, LCR, stress tests
+│   ├── 06_Risk_Margin.md              # 6% CoC risk margin projection
+│   ├── 07_Data_Schemas_And_Sample_Inputs.md  # Pydantic schemas, sample test data
+│   └── 08_End_to_End_Data_Flow.md     # Module dependencies, run orchestration, audit trail
+│
+├── Reference_Documents/         # Prior-art reference from Pythora v1.0.0 (another SBA model)
+│   ├── PHASE1-*.md                 # Architecture & algorithm docs (10 files)
+│   ├── PHASE2-*.md                 # Code verification findings (5 files)
+│   └── PHASE3-*.md                 # Test specifications (7 files)
+│
 ├── Archive/                     # Superseded earlier documents
 │   └── (earlier summary documents)
 │
@@ -94,16 +111,17 @@ The model follows a **Prophet-inspired architecture** with clean separation of c
 
 ## Current Status
 
-The project has completed the planning phase. A comprehensive set of project documents is ready for team review in `Project_Plan/`. Key decisions made:
+The project is in an **extended planning phase**. Implementation-ready algorithm specifications are complete for all core modules. Key decisions made:
 
 - **Architecture:** Python desktop calculation engine with QuantLib for curves/pricing
 - **Scope:** Full BMA SBA regulatory suite (BEL + LCR + stress tests + company challenge)
+- **Algorithm Specs:** 10 documents in `Algorithm_Specs/` covering every target module with pseudocode, formulas, BMA rule references, and worked numerical examples
+- **Golden Tests:** Two illustrative calculations (simple 1-bond and multi-asset 3-bond) ready as integration test targets
 - **Team:** To be assembled (3-6 people depending on timeline requirements)
-- **Timeline:** 5-12 months depending on team size
 
 ## Next Steps
 
-1. **Team Review** - Discuss the Project Plan documents with the wider BMA team
+1. **Review Algorithm Specs** - Validate the 10 algorithm specification documents in `Algorithm_Specs/`
 2. **Team Assembly** - Hire Senior Python Developer (critical path), then additional developers
 3. **IT Setup** - Confirm Python/QuantLib installation on BMA workstations
 4. **Phase 0** - Project setup and QuantLib bootcamp with Jupyter notebooks
@@ -115,5 +133,8 @@ The project has completed the planning phase. A comprehensive set of project doc
 |---|---|
 | [Project Charter](Project_Plan/01_Project_Charter.md) | Start here - project vision and scope |
 | [Architecture Design](Project_Plan/02_Architecture_Design.md) | Technical architecture and data flow |
+| [Technical Specifications](Project_Plan/05_Technical_Specifications.md) | BMA scenarios, asset schemas, algorithms (cross-refs Algorithm_Specs) |
 | [BMA SBA Consolidated Guide](BMA_doc/BMA_SBA_Consolidated_Guide.md) | Authoritative BMA rule reference |
-| [BMA Illustrative Calculation](BMA_doc/BMA_SBA_Illustrative_Calculation.md) | Worked example - the primary integration test |
+| [BMA Illustrative Calculation](BMA_doc/BMA_SBA_Illustrative_Calculation.md) | Worked examples - simple + multi-asset golden integration tests |
+| [Projection Engine Spec](Algorithm_Specs/02_Projection_Engine.md) | Core algorithm - reproduces golden test (BEL=$7,571) |
+| [End-to-End Data Flow](Algorithm_Specs/08_End_to_End_Data_Flow.md) | Module dependencies, run orchestration, audit trail |

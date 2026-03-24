@@ -205,3 +205,242 @@ This detailed calculation provides several key insights into the SBA framework:
 *   **Other Risks Captured:** While not modeled in this simple example, a full SBA implementation would also capture other critical risks, such as losses from forced sales of assets in a duration-mismatched portfolio and the impact of credit defaults and downgrades on asset cash flows.
 
 This framework ensures that an insurer's capital and liquidity are sufficient not just on a static valuation basis, but on a dynamic, go-forward basis under a range of plausible stresses.
+
+---
+
+## 7. Extended Illustrative Calculation — Multi-Asset Portfolio with Credit Costs
+
+This section extends the simple one-bond example from Sections 2-6 into a more realistic setting. It introduces multiple assets across different tiers, credit default and downgrade costs (D&D), Tier 3 constraints, maturity cliffs, forced asset sales, and all nine BMA scenarios. The goal is to bridge the gap between the simple pedagogical example and a production-grade model, while keeping every number hand-calculable.
+
+### 7.1. Portfolio Setup
+
+#### 7.1.1. Assets (at T=0)
+
+| # | Asset | Tier | Par | Coupon Rate | Annual Coupon | Yield | Maturity | Market Value (T=0) |
+|:--|:------|:-----|:----|:------------|:--------------|:------|:---------|:-------------------|
+| 1 | 10-Year Government Bond | Tier 1 | $3,000 | 3.0% | $90 | 3.2% | 10 years | $2,983 |
+| 2 | 7-Year IG Corporate Bond (BBB) | Tier 1 | $2,000 | 5.0% | $100 | 4.8% | 7 years | $2,023 |
+| 3 | 5-Year HY Corporate Bond | Tier 3 | $500 | 7.0% | $35 | 7.5% | 5 years | $490 |
+
+*   **Initial Cash:** C0 (to be solved)
+*   **Total Portfolio Market Value (excluding cash):** $2,983 + $2,023 + $490 = **$5,496**
+
+**Market Value Calculations:**
+
+*   **Asset 1 (Govt Bond):** MV = sum of $90 coupon discounted at 3.2% for years 1-10, plus $3,000 par at year 10. MV = $90 x a(10, 3.2%) + $3,000 x v(10, 3.2%) = $762 + $2,221 = **$2,983**.
+*   **Asset 2 (IG Corp):** MV = sum of $100 coupon discounted at 4.8% for years 1-7, plus $2,000 par at year 7. MV = $100 x a(7, 4.8%) + $2,000 x v(7, 4.8%) = $586 + $1,437 = **$2,023**.
+*   **Asset 3 (HY Corp):** MV = sum of $35 coupon discounted at 7.5% for years 1-5, plus $500 par at year 5. MV = $35 x a(5, 7.5%) + $500 x v(5, 7.5%) = $142 + $348 = **$490**.
+
+#### 7.1.2. Liabilities
+
+A **10-year annuity** paying **$800** at the end of each year for 10 years.
+
+#### 7.1.3. Key Assumptions
+
+*   **Credit Costs (Default & Downgrade, "D&D"):** These are annual deductions from the portfolio's cash flow, representing expected losses from credit deterioration. They apply only to corporate bonds (not government bonds):
+    *   **IG Corporate (BBB):** 0.20% of par per year = $2,000 x 0.20% = **$4/year** (years 1-7)
+    *   **HY Corporate:** 1.00% of par per year = $500 x 1.00% = **$5/year** (years 1-5)
+*   **Tier 3 Constraint:** The HY bond (Tier 3) earns coupons and matures normally, but it **cannot be sold** before maturity under any circumstances. This restricts the disinvestment waterfall.
+*   **Transaction Costs:** 10 basis points (0.10%) on the proceeds of any forced asset sale.
+*   **Reinvestment:** All cash earns interest at the scenario-specific risk-free rate.
+*   **No reinvestment into new bonds:** When bonds mature, proceeds are held as cash earning the scenario rate. This simplification isolates the effects we want to study.
+
+#### 7.1.4. Cash Flow Structure (Before C0 Interest)
+
+The portfolio's net annual cash flows (excluding interest on the cash buffer) are:
+
+| Year | Govt Coupon | IG Coupon | HY Coupon | D&D (IG) | D&D (HY) | Maturity Proceeds | Liability | **Net Cash Flow** |
+|:-----|:-----------|:----------|:----------|:---------|:---------|:------------------|:----------|:------------------|
+| 1 | +$90 | +$100 | +$35 | -$4 | -$5 | — | -$800 | **-$584** |
+| 2 | +$90 | +$100 | +$35 | -$4 | -$5 | — | -$800 | **-$584** |
+| 3 | +$90 | +$100 | +$35 | -$4 | -$5 | — | -$800 | **-$584** |
+| 4 | +$90 | +$100 | +$35 | -$4 | -$5 | — | -$800 | **-$584** |
+| 5 | +$90 | +$100 | +$35 | -$4 | -$5 | +$500 (HY matures) | -$800 | **-$84** |
+| 6 | +$90 | +$100 | — | -$4 | — | — | -$800 | **-$614** |
+| 7 | +$90 | +$100 | — | -$4 | — | +$2,000 (IG matures) | -$800 | **+$1,386** |
+| 8 | +$90 | — | — | — | — | — | -$800 | **-$710** |
+| 9 | +$90 | — | — | — | — | — | -$800 | **-$710** |
+| 10 | +$90 | — | — | — | — | +$3,000 (Govt matures) | -$800 | **+$2,290** |
+
+**Key observations from the cash flow structure:**
+
+*   **Years 1-4:** Steady drain of $584/year. Total coupons ($225) less D&D ($9) fall far short of the $800 liability.
+*   **Year 5:** HY bond matures, providing $500 of relief. Net drain drops to only $84.
+*   **Year 6:** The worst single year — HY bond is gone, IG bond hasn't matured yet. Net drain is $614.
+*   **Year 7:** The "maturity cliff" resolves as the IG bond matures, producing a $1,386 surplus.
+*   **Years 8-9:** Only the government bond coupon ($90) remains against $800 liabilities. Net drain is $710/year.
+*   **Year 10:** Government bond matures with a $2,290 surplus.
+
+The portfolio has two critical pressure points: **Year 6** (deepest single-year drain) and **Years 8-9** (sustained high drain after IG maturity is consumed). The C0 must be large enough to carry the portfolio through both.
+
+### 7.2. Solving for C0 — Methodology
+
+For each scenario, we solve for the **minimum** initial cash C0 such that the cash balance never drops below zero in any year. The method is to **work backward** from Year 10:
+
+1.  Set Required Cash at end of Year 10 = $0.
+2.  For each year k (from 10 down to 1), compute the minimum opening cash needed so that: `Opening_Cash x (1 + r_k) + Net_CF_k >= Required_Cash_next_year`, where r_k is the scenario reinvestment rate for year k.
+3.  If the computed minimum is negative, set it to zero (you can't have negative cash).
+4.  The Required Cash at the start of Year 1 is C0.
+
+### 7.3. Scenario A — Base Case (Flat 3.0%)
+
+*   **Reinvestment Rate:** 3.0% per year, all years.
+*   **Required C0:** Solving backward yields **C0 = $2,758**.
+*   **Binding Constraint:** Year 6, where cash drops to near zero just before the IG bond maturity at Year 7 provides relief.
+
+| Year | Opening Cash | Bond Coupons | D&D Cost | Liability | Maturity Proceeds | Net CF | Interest on Cash (3.0%) | Closing Cash | Notes |
+|:-----|:-------------|:-------------|:---------|:----------|:------------------|:-------|:------------------------|:-------------|:------|
+| 0 | — | — | — | — | — | — | — | **$2,758** | Initial cash buffer |
+| 1 | $2,758 | +$225 | -$9 | -$800 | — | -$584 | +$83 | $2,257 | |
+| 2 | $2,257 | +$225 | -$9 | -$800 | — | -$584 | +$68 | $1,741 | |
+| 3 | $1,741 | +$225 | -$9 | -$800 | — | -$584 | +$52 | $1,209 | |
+| 4 | $1,209 | +$225 | -$9 | -$800 | — | -$584 | +$36 | $661 | |
+| 5 | $661 | +$225 | -$9 | -$800 | +$500 | -$84 | +$20 | $597 | HY bond matures |
+| 6 | $597 | +$190 | -$4 | -$800 | — | -$614 | +$18 | **$1** | **Near-zero** (binding) |
+| 7 | $1 | +$190 | -$4 | -$800 | +$2,000 | +$1,386 | +$0 | $1,387 | IG bond matures |
+| 8 | $1,387 | +$90 | — | -$800 | — | -$710 | +$42 | $719 | |
+| 9 | $719 | +$90 | — | -$800 | — | -$710 | +$22 | $31 | |
+| 10 | $31 | +$90 | — | -$800 | +$3,000 | +$2,290 | +$1 | $2,322 | Govt bond matures; terminal surplus |
+
+### 7.4. Scenario B — Rates Down (Flat 1.5%)
+
+*   **Reinvestment Rate:** 1.5% per year, all years.
+*   **Required C0:** Solving backward yields **C0 = $2,893**.
+*   **Binding Constraints:** Year 6 (cash ~$3) and Year 9 (cash ~$0). The lower reinvestment rate means the cash buffer earns less, requiring a larger starting amount.
+
+| Year | Opening Cash | Bond Coupons | D&D Cost | Liability | Maturity Proceeds | Net CF | Interest on Cash (1.5%) | Closing Cash | Notes |
+|:-----|:-------------|:-------------|:---------|:----------|:------------------|:-------|:------------------------|:-------------|:------|
+| 0 | — | — | — | — | — | — | — | **$2,893** | Initial cash buffer |
+| 1 | $2,893 | +$225 | -$9 | -$800 | — | -$584 | +$43 | $2,352 | |
+| 2 | $2,352 | +$225 | -$9 | -$800 | — | -$584 | +$35 | $1,803 | |
+| 3 | $1,803 | +$225 | -$9 | -$800 | — | -$584 | +$27 | $1,246 | |
+| 4 | $1,246 | +$225 | -$9 | -$800 | — | -$584 | +$19 | $681 | |
+| 5 | $681 | +$225 | -$9 | -$800 | +$500 | -$84 | +$10 | $607 | HY bond matures |
+| 6 | $607 | +$190 | -$4 | -$800 | — | -$614 | +$9 | **$2** | **Near-zero** (binding) |
+| 7 | $2 | +$190 | -$4 | -$800 | +$2,000 | +$1,386 | +$0 | $1,388 | IG bond matures |
+| 8 | $1,388 | +$90 | — | -$800 | — | -$710 | +$21 | $699 | |
+| 9 | $699 | +$90 | — | -$800 | — | -$710 | +$10 | **$0** | **Near-zero** (binding) |
+| 10 | $0 | +$90 | — | -$800 | +$3,000 | +$2,290 | +$0 | $2,290 | Govt bond matures; terminal surplus |
+
+**Why Rates Down has TWO binding years:** At 1.5%, interest income is so low that the portfolio barely survives Year 6 (the deep trough before IG maturity) AND barely survives Year 9 (the end of the long drought with only government coupons). This dual binding is a hallmark of portfolios with maturity mismatches — different segments of the liability stream become critical under different rate environments.
+
+### 7.5. Scenario C — Rates Up (Flat 5.0%)
+
+*   **Reinvestment Rate:** 5.0% per year, all years.
+*   **Required C0:** Solving backward yields **C0 = $2,595**.
+*   **Binding Constraint:** Year 6. Higher rates generate more interest on the cash buffer, so the starting amount can be smaller.
+
+| Year | Opening Cash | Bond Coupons | D&D Cost | Liability | Maturity Proceeds | Net CF | Interest on Cash (5.0%) | Closing Cash | Notes |
+|:-----|:-------------|:-------------|:---------|:----------|:------------------|:-------|:------------------------|:-------------|:------|
+| 0 | — | — | — | — | — | — | — | **$2,595** | Initial cash buffer |
+| 1 | $2,595 | +$225 | -$9 | -$800 | — | -$584 | +$130 | $2,141 | |
+| 2 | $2,141 | +$225 | -$9 | -$800 | — | -$584 | +$107 | $1,664 | |
+| 3 | $1,664 | +$225 | -$9 | -$800 | — | -$584 | +$83 | $1,163 | |
+| 4 | $1,163 | +$225 | -$9 | -$800 | — | -$584 | +$58 | $637 | |
+| 5 | $637 | +$225 | -$9 | -$800 | +$500 | -$84 | +$32 | $585 | HY bond matures |
+| 6 | $585 | +$190 | -$4 | -$800 | — | -$614 | +$29 | **$0** | **Near-zero** (binding) |
+| 7 | $0 | +$190 | -$4 | -$800 | +$2,000 | +$1,386 | +$0 | $1,386 | IG bond matures |
+| 8 | $1,386 | +$90 | — | -$800 | — | -$710 | +$69 | $745 | |
+| 9 | $745 | +$90 | — | -$800 | — | -$710 | +$37 | $72 | |
+| 10 | $72 | +$90 | — | -$800 | +$3,000 | +$2,290 | +$4 | $2,366 | Govt bond matures; terminal surplus |
+
+### 7.6. Summary of All Nine Scenarios
+
+The BMA prescribes nine interest rate scenarios. Below, simplified reinvestment rate structures are used for each. The detailed tables for Scenarios A, B, and C are shown above; the remaining six are computed using the same backward-solving methodology.
+
+| Scenario | Description | Rate Structure | C0 Required | Binding Year(s) |
+|:---------|:-----------|:---------------|:------------|:-----------------|
+| A | Base Case | 3.0% flat | $2,758 | Year 6 |
+| **B** | **Rates Down** | **1.5% flat** | **$2,893** | **Years 6, 9** |
+| C | Rates Up | 5.0% flat | $2,595 | Year 6 |
+| D | Down-Up | 1.5% yrs 1-3, 4.0% yrs 4-10 | $2,833 | Year 6 |
+| E | Up-Down | 5.0% yrs 1-3, 2.5% yrs 4-10 | $2,645 | Year 6 |
+| F | Twist 1 (Short Down, Long Up) | 1.5% yrs 1-3, 3.0% yrs 4-7, 5.0% yrs 8-10 | $2,854 | Year 6 |
+| G | Twist 2 (Short Up, Long Down) | 5.0% yrs 1-3, 3.0% yrs 4-7, 1.5% yrs 8-10 | $2,638 | Years 6, 9 |
+| H | Twist 3 (Parallel Down then Up) | 2.0% yrs 1-5, 4.0% yrs 6-10 | $2,835 | Year 6 |
+| I | Twist 4 (Parallel Up then Down) | 4.0% yrs 1-5, 2.0% yrs 6-10 | $2,682 | Year 6 |
+
+### 7.7. Identifying the Biting Scenario
+
+The **Biting Scenario** is Scenario B (Rates Down) with C0 = **$2,893**. This requires the highest initial cash buffer because:
+
+1.  **Lowest reinvestment income:** At 1.5%, the cash buffer earns the least interest, compounding the drain from the annual shortfalls.
+2.  **Dual binding constraint:** The portfolio barely survives both Year 6 (the deep trough before the IG bond maturity) and Year 9 (the sustained drain period with only government coupons). No other scenario produces two simultaneous binding constraints.
+3.  **D&D costs amplify the stress:** The $9/year credit cost in years 1-5 and $4/year in years 6-7, while modest, further erode the thin cash margins.
+
+### 7.8. Final BEL Calculation
+
+**SBA BEL = Total Portfolio Market Value + C0 from the Biting Scenario**
+
+**SBA BEL = $5,496 + $2,893 = $8,389**
+
+### 7.9. Forced Asset Sale Illustration
+
+The C0 values above are sized so that forced sales are never needed. But what happens if an insurer holds **insufficient** initial cash? This subsection illustrates the mechanics of a forced sale under the Rates Up scenario (Scenario C), where rising rates depress bond prices.
+
+**Setup:** Suppose the insurer holds only **C0 = $2,200** (about $395 less than the required $2,595) under the Rates Up scenario (5.0%).
+
+Tracing the projection forward:
+
+| Year | Opening Cash | Net CF | Interest (5.0%) | Closing Cash | Notes |
+|:-----|:-------------|:-------|:-----------------|:-------------|:------|
+| 1 | $2,200 | -$584 | +$110 | $1,726 | |
+| 2 | $1,726 | -$584 | +$86 | $1,228 | |
+| 3 | $1,228 | -$584 | +$61 | $705 | |
+| 4 | $705 | -$584 | +$35 | $156 | |
+| 5 | $156 | -$84 | +$8 | $80 | HY bond matures |
+| 6 | $80 | -$614 | +$4 | **-$530** | **Cash shortfall!** |
+
+At Year 6, the portfolio is **$530 short**. It must sell assets to raise cash.
+
+**Disinvestment waterfall (BMA rules):**
+
+1.  **Cash** — already exhausted.
+2.  **Government bonds (Tier 1)** — eligible for sale.
+3.  **IG Corporate bonds (Tier 1)** — eligible for sale (but already matured at year 7 in the future, not available to sell early... actually it has not matured yet at year 6, so it IS available).
+4.  **HY bond (Tier 3)** — **CANNOT be sold.** This is the Tier 3 constraint in action.
+
+**Selling the Government Bond at Scenario Prices:**
+
+Under the Rates Up scenario (5.0%), the government bond's market value at Year 6 (with 4 years remaining, 3.0% coupon, valued at the 5.0% scenario rate) is:
+
+`MV_yr6 = $90/1.05 + $90/1.05² + $90/1.05³ + $3,090/1.05⁴`
+`MV_yr6 = $85.71 + $81.63 + $77.74 + $2,541.82 = $2,786.90`
+
+The bond's par value is $3,000, so selling at $2,787 represents a **$213 loss (7.1% below par)**. This is the mark-to-market penalty from rising rates.
+
+**Executing the forced sale:**
+
+*   Amount needed: $530
+*   Proceeds per dollar of par sold: $2,787 / $3,000 = $0.929 per dollar of par
+*   Transaction cost: 0.10% of proceeds
+*   Par amount to sell: $530 / ($0.929 x 0.999) = **$571 of par** (out of $3,000)
+*   Remaining government bond par after sale: $3,000 - $571 = **$2,429**
+*   Future annual coupon reduced from $90 to: $2,429 x 3.0% = **$73/year**
+
+**Consequences of the forced sale:**
+
+*   **Immediate:** The $213 loss on the sold portion is crystallized. The insurer receives $530 in cash but gives up $571 of par value.
+*   **Ongoing:** Annual coupon income drops by $17/year for the remaining 4 years, further weakening the portfolio's ability to meet future liabilities.
+*   **At maturity (Year 10):** The government bond returns only $2,429 instead of $3,000, reducing the terminal surplus by $571.
+*   **Cascading risk:** The reduced coupon and par make Years 8-9 even tighter, potentially triggering additional forced sales.
+
+This illustrates why the BMA sizes C0 to **avoid** forced sales — once they begin, the portfolio enters a downward spiral of reduced income and further shortfalls.
+
+**Note on Tier 3:** The HY bond ($490 market value) could theoretically cover the $530 shortfall if sold. But BMA rules classify it as Tier 3, making it ineligible for sale. This is a deliberate regulatory constraint: HY bonds are assumed to be illiquid or to carry unacceptable fire-sale discounts. The Tier 3 classification forces the insurer to sell the higher-quality government bond instead, which — while liquid — generates a mark-to-market loss in a rising-rate environment.
+
+### 7.10. Key Learning Points
+
+This extended example reveals several dynamics that the simple one-bond example could not:
+
+*   **D&D costs erode net asset income over time.** The $9/year credit cost (years 1-5) and $4/year (years 6-7) may seem small, but they accumulate to $53 over the projection. In a portfolio with tighter margins or lower-rated credits, D&D costs can be the difference between solvency and failure. The 2024-2028 BMA phase-in (20% to 100%) means these costs will grow significantly in coming years.
+
+*   **Tier 3 constraints restrict the disinvestment waterfall.** The HY bond contributes $35/year in coupons and returns $500 at maturity — valuable cash flows. But when the portfolio is under stress, the Tier 3 bond is a locked asset. It earns income but cannot provide emergency liquidity. This asymmetry means Tier 3 assets contribute to income but not to resilience.
+
+*   **Maturity mismatches create cliff risks.** The portfolio has three distinct maturity dates (years 5, 7, and 10) but a smooth 10-year liability stream. The result is two "drought" periods (years 6 and 8-9) where outflows far exceed inflows. The IG bond maturity at Year 7 creates a false sense of security — it generates a one-time surplus that must be carefully rationed over the subsequent three years.
+
+*   **Forced sales at scenario prices generate real losses.** In the Rates Up illustration, selling the government bond at Year 6 crystallized a 7.1% loss versus par. Worse, the reduced coupon and par weakened the portfolio for the remaining 4 years. This is the "death spiral" risk that the SBA is specifically designed to detect: under-capitalized portfolios forced to sell assets at depressed prices, further reducing their ability to meet future obligations.
+
+*   **Multiple binding constraints signal structural vulnerability.** In the Rates Down scenario (the biting scenario), the portfolio hits near-zero cash at both Year 6 and Year 9. This dual binding means there is no single "fix" — extending the IG bond maturity would help Year 6 but not Year 9, while adding more short-term assets would help Year 9 but not Year 6. A structurally sound portfolio should have no more than one binding constraint across all years.
+
+*   **The interaction between scenarios and portfolio structure is non-obvious.** Rates Down is the biting scenario not because it produces the largest single-year shortfall (it does not), but because low reinvestment rates compound the effect of every shortfall. A portfolio with better cash flow matching would be less sensitive to rate levels and more sensitive to rate timing (twists). The biting scenario is a function of both the rate path and the portfolio's specific structure.

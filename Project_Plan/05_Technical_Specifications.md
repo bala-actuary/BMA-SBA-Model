@@ -598,3 +598,22 @@ TP = BEL + Risk Margin
 - Basis points: 2 decimal places (e.g., 150.00 bps)
 - Ratios (LCR): 4 decimal places (e.g., 1.0523)
 - Internal calculations: 64-bit floating point (Python default)
+
+---
+
+## 13. Cross-References to Algorithm Specifications
+
+The following detailed algorithm specification documents in `Algorithm_Specs/` provide implementation-ready detail for each component described in this document:
+
+| This Document Section | Algorithm Spec | Target Code Module |
+|---|---|---|
+| Section 1 (Scenarios) | `01_Yield_Curve_Construction.md` | `curves/curve_builder.py` |
+| Section 4.1 (Projection) | `02_Projection_Engine.md` | `projection/cashflow_engine.py` |
+| Section 4.2 (Reinvestment) | `02a_Reinvestment_Strategy.md` | `projection/reinvestment.py` |
+| Section 4.3 (Disinvestment) | `02b_Disinvestment_Waterfall.md` | `projection/disinvestment.py` |
+| Section 5 (Credit Costs) | `03_Credit_Costs_DD.md` | `projection/credit_costs.py` |
+| Section 10 (BEL) | `04_Spread_Cap_Enforcement.md` | `calculations/bel_calculator.py` |
+| Section 8 (LCR) | `05_Lapse_Cost_LCR.md` | `calculations/lapse_cost.py`, `calculations/lcr.py` |
+| Section 9 (Risk Margin) | `06_Risk_Margin.md` | `calculations/risk_margin.py` |
+| Sections 2-3, 11 (Schemas) | `07_Data_Schemas_And_Sample_Inputs.md` | `model_points/`, `assumptions/` |
+| Section 12 (Outputs) | `08_End_to_End_Data_Flow.md` | `engine/run_orchestrator.py` |

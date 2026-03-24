@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>EXECUTIVE-SUMMARY-SBA-BEL-Actuary-OnBoarding.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="sba-bel-methodology---executive-summary-for-actuary-on-boarding">SBA BEL Methodology - Executive Summary for Actuary On-boarding</h1>
+<p><strong>Audience</strong>: Actuaries, team leads, auditors (technical, math-comfortable)<br>
+<strong>Duration</strong>: 2-3 hours read + 2-3 hours deep-dive (Phase docs)<br>
+<strong>Purpose</strong>: Understand SBA BEL business logic, regulatory context, implementation approach<br>
+<strong>Version</strong>: v1.0 | Created: March 24, 2026</p>
+<hr>
+<h2 id="page-1-regulatory-context--business-purpose">Page 1: Regulatory Context &amp; Business Purpose</h2>
+<h3 id="what-is-sba">What is SBA?</h3>
+<p>The <strong>Scenario-Based Approach (SBA)</strong> is a regulatory requirement from the <strong>Bermuda Monetary Authority (BMA)</strong> under Schedule XXV of the 2024 Amended Rules. It determines the <strong>Best Estimate Liability (BEL)</strong> for insurance portfolios by calculating the minimum asset value required to cover projected liability cash flows across a range of economic stress scenarios.</p>
+<h3 id="why-sba-matters">Why SBA Matters</h3>
+<p><strong>Formula (Conceptually)</strong>:
+$$\text{SBA BEL} = \max_{s \in \text{Scenarios}} \left( \text{Assets needed in scenario } s \text{ to cover all liability cashflows} \right)$$</p>
+<p><strong>Translation</strong>: SBA answers &quot;What's the worst-case amount of assets we need to keep our promises to policyholders, across 9 different economic scenarios?&quot;</p>
+<h3 id="regulatory-requirement">Regulatory Requirement</h3>
+<p>Under <strong>Article 28 of Schedule XXV (BMA 2024 Amendment Rules)</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Your Implementation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Use current asset portfolio + reinvestment assumptions</td>
+<td>✅ Assets at t=0, reinvestment rules defined</td>
+</tr>
+<tr>
+<td>Calculate assets needed for <strong>base</strong> + <strong>8 stress scenarios</strong></td>
+<td>✅ 9 total scenarios modeled</td>
+</tr>
+<tr>
+<td>Take <strong>highest asset requirement</strong> across scenarios</td>
+<td>✅ Goal-seek identifies maximum</td>
+</tr>
+<tr>
+<td>Apply interest rate shocks per Article 28(7)</td>
+<td>✅ 8 IR scenarios: ±25bps, curve shifts, twists, flattens</td>
+</tr>
+<tr>
+<td>Document methodology per Article 28(38)</td>
+<td>✅ This package (21 docs + executive summary)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="governance-at-athora">Governance at Athora</h3>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Group Chief Actuary</td>
+<td>Approve methodology, attest to appropriateness</td>
+</tr>
+<tr>
+<td>Group Model &amp; Assumptions Committee</td>
+<td>Develop &amp; endorse model</td>
+</tr>
+<tr>
+<td>Group Actuarial</td>
+<td>Implement &amp; maintain model</td>
+</tr>
+<tr>
+<td>Group Risk</td>
+<td>Validate model</td>
+</tr>
+<tr>
+<td>Board</td>
+<td>Final approval</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="pages-2-3-the-algorithm---how-sba-works">Pages 2-3: The Algorithm - How SBA Works</h2>
+<h3 id="high-level-process">High-Level Process</h3>
+<pre class="hljs"><code><div>INPUTS:
+├─ Assets at time 0 (market values by asset class)
+├─ Liabilities (cashflows in base + 8 scenarios, includes policyholder optionality)
+├─ Interest rates (Euribor 6M swap curve + 8 stress scenarios)
+├─ Spreads (mean-reverting credit spreads)
+├─ Parameters (150+ settings: tolerances, limits, assumptions)
+└─ Derivatives (IR swaps for hedging, FX forwards, swaptions)
+
+PROCESS (for each of 9 scenarios):
+  FOR year = 1 to 100:
+    1. Receive liability cashflows for the year
+    2. Receive asset cashflows (coupons, maturities, net of D&amp;D)
+    3. Pay/receive swap cashflows
+    4. Pay investment fees
+    5. Roll forward to end-of-year (accrue investment returns)
+    6. Update interest rates (base + scenario shock)
+    7. Revalue all assets at new rates + spreads
+    8. Rebalance portfolio:
+       - Physical: Rebalance to Target Asset Allocation (TAA)
+       - Derivatives: Rebalance swaps to match KRD targets
+       - Incur transaction costs
+  AFTER total projection:
+    Run GOAL-SEEK: Find minimum assets (at t=0) such that:
+      - Projected assets never go negative (no borrowing)
+      - All liability cashflows are covered in full
+
+OUTPUT:
+├─ Asset amount required = SBA BEL (highest across 9 scenarios)
+├─ SBA Spread = Constant spread above risk-free rates that values liabilities
+├─ Plus: 35bps cap applied to SBA spread ⚠️ (currently NOT enforced - gap)
+└─ Supporting metrics: KRD positions, rebalancing history, stress impacts
+
+</div></code></pre>
+<h3 id="the-9-scenarios">The 9 Scenarios</h3>
+<p><strong>Base Case</strong> (1 scenario):</p>
+<ul>
+<li>Interest rates follow Euribor 6M swap curve</li>
+<li>Spreads apply mean reversion: $z(t) = L + (S_0 - L) \times \rho^t$</li>
+<li>No shocks applied</li>
+</ul>
+<p><strong>Stress Scenarios</strong> (8 scenarios per BMA Article 28(7)):</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Interest Rate Adjustment</th>
+<th>Economic Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Up 25bps</td>
+<td>All rates +25bps</td>
+<td>Tightening environment</td>
+</tr>
+<tr>
+<td>Down 25bps</td>
+<td>All rates -25bps</td>
+<td>Easing environment</td>
+</tr>
+<tr>
+<td>Up 25bps flipped</td>
+<td>+25bps then -25bps (curve twist)</td>
+<td>Short rates up, long rates down</td>
+</tr>
+<tr>
+<td>Down 25bps flipped</td>
+<td>-25bps then +25bps (curve twist)</td>
+<td>Short rates down, long rates up</td>
+</tr>
+<tr>
+<td>Flattening</td>
+<td>Front end +50bps, back end -50bps</td>
+<td>Yield curve flattens</td>
+</tr>
+<tr>
+<td>Steepening</td>
+<td>Front end -50bps, back end +50bps</td>
+<td>Yield curve steepens</td>
+</tr>
+<tr>
+<td>Short up</td>
+<td>+50bps for first 5 years, then +25bps</td>
+<td>Front-end stress</td>
+</tr>
+<tr>
+<td>Long up</td>
+<td>-25bps for first 5 years, then +50bps</td>
+<td>Back-end stress</td>
+</tr>
+</tbody>
+</table>
+<p><strong>For each scenario</strong>: Shocks are MAXIMUM in year 1, then converge to steady-state by year 10. Years 11-100 use year 10 shock level.</p>
+<h3 id="goal-seek-algorithm-finding-the-sba-bel">Goal-Seek Algorithm: Finding the SBA BEL</h3>
+<p><strong>Why needed</strong>: We need to find the EXACT starting asset amount that:</p>
+<ol>
+<li>✅ Covers all liability cashflows (no shortfall)</li>
+<li>✅ Never goes negative (no borrowing allowed)</li>
+<li>✅ Is minimized (most conservative estimate)</li>
+</ol>
+<p><strong>Athora's approach</strong>: <strong>Hybrid Linear + Bisection</strong> algorithm</p>
+<pre class="hljs"><code><div>Algorithm: Hybrid_Goal_Seek(target_spread)
+  attempts = 0
+  while attempts &lt; 20:
+    
+    // Try linear interpolation first (faster)
+    if attempts &lt; 8:
+      linear_estimate = interpolate_linearly(attempts)
+      run_projection(linear_estimate)
+      if converged_or_bracketed():
+        return solution
+      
+    // After 8 attempts (or discontinuity detected), switch to bisection
+    else:
+      upper = 110% of current estimate
+      lower = 90% of current estimate
+      while not converged():
+        mid = (upper + lower) / 2
+        run_projection(mid)
+        if cash_positive_everywhere():
+          lower = mid
+        else:
+          upper = mid
+      return solution
+    
+    attempts += 1
+  
+  // Last resort: absolute tolerance (looser)
+  return best_effort_with_absolute_tolerance()
+</div></code></pre>
+<p><strong>Why hybrid?</strong></p>
+<ul>
+<li>Linear is fast when the problem is smooth</li>
+<li>Bisection is robust when there are discontinuities (e.g., rebalancing thresholds)</li>
+<li>Falls back to loose tolerance if 20 attempts insufficient</li>
+</ul>
+<hr>
+<h2 id="pages-4-6-business-rules--constraints">Pages 4-6: Business Rules &amp; Constraints</h2>
+<h3 id="asset-eligibility-what-can-back-liabilities">Asset Eligibility: What Can Back Liabilities?</h3>
+<p><strong>Principle</strong>: Only <strong>fixed-income</strong> assets with <strong>defined cashflows</strong> can back SBA liabilities.</p>
+<h4 id="unrestricted-assets-no-limits">Unrestricted Assets (No Limits)</h4>
+<table>
+<thead>
+<tr>
+<th>Asset Class</th>
+<th>Example</th>
+<th>Rating Requirement</th>
+<th>Approval Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cash &amp; equivalents</td>
+<td>Bank deposits, MMFs</td>
+<td>IG</td>
+<td>✅ No approval needed</td>
+</tr>
+<tr>
+<td>Government bonds</td>
+<td>EUR Sovereigns</td>
+<td>Any</td>
+<td>✅ Acceptable per BMA</td>
+</tr>
+<tr>
+<td>Municipal bonds</td>
+<td>Local authority bonds</td>
+<td>IG</td>
+<td>✅ Acceptable per BMA</td>
+</tr>
+<tr>
+<td>Corporate bonds (IG)</td>
+<td>Bank bonds, corporates</td>
+<td>Investment Grade</td>
+<td>✅ Acceptable per BMA</td>
+</tr>
+<tr>
+<td>EMD (IG)</td>
+<td>Emerging market sovereigns</td>
+<td>Investment Grade</td>
+<td>✅ Acceptable per BMA</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Total from these</strong>: No limit. Use as much as available.</p>
+<h4 id="limited-assets-subject-to-caps">Limited Assets (Subject to Caps)</h4>
+<table>
+<thead>
+<tr>
+<th>Asset Class</th>
+<th>Limit</th>
+<th>Details</th>
+<th>Approval Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Private debt, sub-IG</td>
+<td>10% of SBA assets</td>
+<td>Internally rated MML, Large Cap DL, Infra, ABL</td>
+<td>✅ Approved YE23</td>
+</tr>
+<tr>
+<td>Dutch RMLs, High LTV (&gt;80%)</td>
+<td>10% of SBA assets</td>
+<td>Retail mortgages &lt;90 days arrears</td>
+<td>✅ Approved</td>
+</tr>
+<tr>
+<td>Dutch RMLs, Low LTV (≤80%)</td>
+<td>20% of SBA assets (incremental)</td>
+<td>Quality mortgages</td>
+<td>✅ Approved</td>
+</tr>
+<tr>
+<td>CLOs (IG)</td>
+<td>10% cap (general limited bucket)</td>
+<td>Collateralized loan obligations</td>
+<td>🟡 Planned YE24</td>
+</tr>
+<tr>
+<td>ABS (IG)</td>
+<td>10% cap (general limited bucket)</td>
+<td>Asset-backed securities</td>
+<td>🟡 Planned YE24</td>
+</tr>
+<tr>
+<td>Commercial mortgage loans (IG)</td>
+<td>Per sub-IG bucket</td>
+<td>NAIC-rated mortgages</td>
+<td>🟡 Planned YE24</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Combined limit for limited assets</strong>:</p>
+<pre class="hljs"><code><div>Sub-IG assets + High LTV RMLs ≤ 10% of total SBA assets
+Sub-IG assets + High LTV RMLs + Low LTV RMLs ≤ 20% of total SBA assets
+
+If exceeded: Scale down pro-rata until compliant
+</div></code></pre>
+<h4 id="individual-asset-limit">Individual Asset Limit</h4>
+<p><strong>Each single asset</strong> (by ISIN or contract): ≤ 0.5% of total SBA asset portfolio</p>
+<p><strong>Ineligible Assets</strong> (cannot use):</p>
+<ul>
+<li>❌ Equities</li>
+<li>❌ Real estate (non-mortgage)</li>
+<li>❌ Unit-linked assets</li>
+<li>❌ Structured products (unless approved ABS)</li>
+<li>❌ Private equity</li>
+</ul>
+<hr>
+<h3 id="liability-eligibility-what-needs-sba-valuation">Liability Eligibility: What Needs SBA Valuation?</h3>
+<h4 id="in-scope-valued-via-sba">IN SCOPE (Valued via SBA)</h4>
+<table>
+<thead>
+<tr>
+<th>Liability Type</th>
+<th>Characteristics</th>
+<th>Coverage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ANL Traditional</strong></td>
+<td>Fixed-rate annuities, with-profit</td>
+<td>Belgium &amp; Netherlands</td>
+</tr>
+<tr>
+<td><strong>AB Traditional</strong></td>
+<td>Fixed-rate liabilities, Belgian book</td>
+<td>Belgium entity</td>
+</tr>
+<tr>
+<td><strong>ARE Business</strong></td>
+<td>Reinsurance liabilities</td>
+<td>All treaties</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key feature</strong>: Includes <strong>policyholder optionality</strong> (surrender rights, profit sharing) modeled through scenario-dependent cashflows</p>
+<h4 id="out-of-scope-not-in-sba">OUT OF SCOPE (Not in SBA)</h4>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unit-linked</td>
+<td>Policyholder bears investment risk; BEL not sensitive to asset choices</td>
+</tr>
+<tr>
+<td>Participating (DE/IT)</td>
+<td>Too variable due to smoothing/profit participation</td>
+</tr>
+<tr>
+<td>Savings mortgages</td>
+<td>Ineligible backing assets</td>
+</tr>
+<tr>
+<td>Separate accounts</td>
+<td>Managed separately outside SBA scope</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="key-actuarial-mechanics">Key Actuarial Mechanics</h3>
+<h4 id="1-interest-rate-modeling">1. Interest Rate Modeling</h4>
+<p><strong>Base Case</strong>:</p>
+<ul>
+<li>Use <strong>Euribor 6M swap curve</strong> (market standard, risk-free proxy for EUR)</li>
+<li>Interpolate illiquid tenors linearly between liquid points</li>
+<li>Liquid tenors: 1-15Y (yearly), then 20Y, 25Y, ..., 50Y (5-year), then flat beyond 50Y</li>
+<li><strong>No extrapolation beyond 50Y</strong> (hold rate flat to 100Y)</li>
+</ul>
+<p><strong>Rationale</strong>:</p>
+<ul>
+<li>Swap rates capture current risk-free yields</li>
+<li>Flat beyond 50Y is conservative (assumes no further changes)</li>
+<li>Consistent with spread measurement (spreads also relative to swaps)</li>
+</ul>
+<h4 id="2-spread-modeling">2. Spread Modeling</h4>
+<p><strong>Formula</strong> (per Athora methodology):
+$$z(t) = L + (z_0 - L) \times \rho^t$$</p>
+<p>Where:</p>
+<ul>
+<li>$z(t)$ = Spread in year $t$</li>
+<li>$L$ = Long-term (&quot;convergence&quot;) spread</li>
+<li>$z_0$ = Starting spread (calibrated at t=0)</li>
+<li>$\rho$ = Mean reversion rate (0 &lt; ρ &lt; 1)</li>
+</ul>
+<p><strong>Interpretation</strong>: Spreads stay high initially then revert to long-term average</p>
+<p><strong>At Athora</strong>:</p>
+<ul>
+<li>Calibrated to market prices at t=0</li>
+<li>Three methods available (configurable):
+<ol>
+<li><strong>CalibrateToMarketPrice</strong> (goal-seek z to match observed prices)</li>
+<li><strong>UseRateInAssetFile</strong> (read from asset data file)</li>
+<li><strong>UseRateInThisTable</strong> (use preset table)</li>
+</ol>
+</li>
+<li>Default: CalibrateToMarketPrice</li>
+</ul>
+<h4 id="3-defaults--downgrades-dd">3. Defaults &amp; Downgrades (D&amp;D)</h4>
+<p><strong>Formula</strong> (cumulative impact):
+$$\text{Cumulative Default Rate}(t) = 1 - (1 - r_{\text{annual}})^t$$</p>
+<p><strong>Applied as</strong>: Multiplicative scalar to both <strong>market value</strong> and <strong>cashflows</strong> each period</p>
+<p><strong>Example</strong>:</p>
+<ul>
+<li>Annual default rate: 1%</li>
+<li>Year 1: Cumulative = 1-(1-0.01)¹ = 1% → 99% of assets remain</li>
+<li>Year 5: Cumulative = 1-(1-0.01)⁵ = 4.9% → 95.1% of assets remain</li>
+<li>Year 10: Cumulative = 1-(1-0.01)¹⁰ = 9.6% → 90.4% of assets remain</li>
+</ul>
+<p><strong>Usage</strong>: Reflects expected credit losses in projection</p>
+<h4 id="4-rebalancing-two-layer-approach">4. Rebalancing: Two-Layer approach</h4>
+<p><strong>Layer 1: Physical Rebalancing</strong> (3x per year max)</p>
+<ul>
+<li>Target: Return to <strong>Target Asset Allocation</strong> (TAA)</li>
+<li>Example TAA: 60% bonds, 25% private lending, 15% mortgages</li>
+<li>Sell overweight, buy underweight</li>
+<li>Incur transaction costs (2-5 bps typical)</li>
+<li>Purpose: Maintain strategic portfolio positioning</li>
+</ul>
+<p><strong>Layer 2: Derivative Rebalancing</strong> (swaps)</p>
+<ul>
+<li>Target: <strong>Key Rate Duration (KRD) match</strong>:
+$$\text{Asset KRD} - \text{Liability KRD} = 0$$
+(i.e., no net interest rate sensitivity)</li>
+<li>Use IR swaps to adjust duration</li>
+<li>Example: If assets shorter than liabilities, enter receive-fixed (short-rate) swaps</li>
+<li>Rebalance up to 3 times per period</li>
+</ul>
+<p><strong>Why two layers?</strong></p>
+<ul>
+<li>Physical rebalancing changes the actual assets (longer-term strategic)</li>
+<li>Swap rebalancing adjusts hedges (period-by-period tactical)</li>
+</ul>
+<hr>
+<h2 id="pages-7-8-key-assumptions--configuration-parameters">Pages 7-8: Key Assumptions &amp; Configuration Parameters</h2>
+<h3 id="critical-parameters-define-model-behavior">Critical Parameters (Define Model Behavior)</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+<th>Meaning</th>
+<th>Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>goal_seek_tolerance_optimal</strong></td>
+<td>0.001%</td>
+<td>Relative tolerance for goal-seek convergence</td>
+<td>alm_setup.xlsm</td>
+</tr>
+<tr>
+<td><strong>goal_seek_tolerance_absolute</strong></td>
+<td>0.1%</td>
+<td>Absolute fallback tolerance</td>
+<td>alm_setup.xlsm</td>
+</tr>
+<tr>
+<td><strong>max_goal_seek_attempts</strong></td>
+<td>20</td>
+<td>Maximum linear+bisection attempts</td>
+<td>sba_goal_seeker.py</td>
+</tr>
+<tr>
+<td><strong>liability_krd_method</strong></td>
+<td>Risk_Free</td>
+<td>Method for KRD: Risk_Free (✅) or Risk_Free+SBA_Spread (❌)</td>
+<td>liability_cashflow.py:92-97</td>
+</tr>
+<tr>
+<td><strong>sba_spread_cap</strong></td>
+<td>35 bps</td>
+<td>Regulatory cap on SBA spread (🔴 NOT ENFORCED)</td>
+<td>settings_loader.py:76</td>
+</tr>
+<tr>
+<td><strong>projection_years</strong></td>
+<td>100</td>
+<td>Model runs 100-year projection</td>
+<td>balance_sheet_projection.py</td>
+</tr>
+<tr>
+<td><strong>projection_frequency</strong></td>
+<td>Annual</td>
+<td>Year-by-year steps (not monthly)</td>
+<td>balance_sheet_projection.py</td>
+</tr>
+<tr>
+<td><strong>rebalance_iterations_max</strong></td>
+<td>3</td>
+<td>Max swaps + physical per period</td>
+<td>balance_sheet_projection.py:160-195</td>
+</tr>
+<tr>
+<td><strong>investment_expense_bps</strong></td>
+<td>Dynamic</td>
+<td>Calculated from asset mix (% of AUM)</td>
+<td>config settings</td>
+</tr>
+</tbody>
+</table>
+<h3 id="input-data-requirements">Input Data Requirements</h3>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Format</th>
+<th>Source</th>
+<th>Frequency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Asset holdings (t=0)</td>
+<td>CSV + Excel</td>
+<td>Bloomberg/custodian feeds</td>
+<td>Daily</td>
+</tr>
+<tr>
+<td>Asset characteristics</td>
+<td>ISIN, rating, cashflows, spreads</td>
+<td>UBS Delta, Bloomberg</td>
+<td>Daily</td>
+</tr>
+<tr>
+<td>Liability cashflows</td>
+<td>By scenario (base + 8)</td>
+<td>BU systems (BE, NL, ARE)</td>
+<td>Quarterly</td>
+</tr>
+<tr>
+<td>Yield curves</td>
+<td>Euribor 6M swap rates by tenor</td>
+<td>Bloomberg, published daily</td>
+<td>Daily</td>
+</tr>
+<tr>
+<td>Credit spreads</td>
+<td>By asset class, rating</td>
+<td>Market data feeds</td>
+<td>Daily</td>
+</tr>
+</tbody>
+</table>
+<h3 id="output-delivery">Output Delivery</h3>
+<table>
+<thead>
+<tr>
+<th>Output</th>
+<th>Purpose</th>
+<th>Users</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SBA BEL amount</td>
+<td>Main regulatory metric</td>
+<td>CFO, regulators, board</td>
+</tr>
+<tr>
+<td>SBA Spread</td>
+<td>Discounting rate for liabilities</td>
+<td>Risk team, actuaries</td>
+</tr>
+<tr>
+<td>Scenario results</td>
+<td>Sensitivity analysis</td>
+<td>Risk analytics, board</td>
+</tr>
+<tr>
+<td>KRD positions</td>
+<td>Hedging effectiveness</td>
+<td>ALM team</td>
+</tr>
+<tr>
+<td>Rebalancing history</td>
+<td>execution tracking</td>
+<td>Operations</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="page-9-known-issues-gaps--risk-mitigation">Page 9: Known Issues, Gaps &amp; Risk Mitigation</h2>
+<h3 id="%F0%9F%94%B4-critical-gap-spread-cap-not-enforced">🔴 Critical Gap: Spread Cap NOT Enforced</h3>
+<p><strong>Issue</strong>:</p>
+<ul>
+<li><strong>Specification requirement</strong> (BMA Article 28, Athora Methodology Section 15.2): SBA spread must not exceed 35bps</li>
+<li><strong>Current status</strong>: Parameter <code>sba_spread_cap</code> defined at line 76 of <code>settings_loader.py</code> but zero references in code</li>
+<li><strong>Impact</strong>: If market spreads exceed 35bps, the 35bps cap is silently ignored → BEL calculation non-compliant</li>
+</ul>
+<p><strong>Evidence</strong>:</p>
+<ul>
+<li>File: settings_loader.py, line 76</li>
+<li>Grep search: &quot;spread_cap&quot; appears 1 time (definition) | 0 times (enforcement logic)</li>
+<li>File: liability_cashflow.py, lines 156-210 (where spread is applied to liability valuation)</li>
+<li><strong>No cap logic present</strong></li>
+</ul>
+<p><strong>Severity</strong>: 🔴 <strong>HIGH</strong> (Regulatory non-compliance)</p>
+<p><strong>Mitigation Options</strong>:</p>
+<ol>
+<li>
+<p>✅ <strong>Implement the cap</strong> (v0.2.0 target)</p>
+<ul>
+<li>Add enforcement logic after spread calculation</li>
+<li>Apply: <code>sba_spread_final = min(sba_spread_calculated, 0.0035)</code></li>
+<li>Effort: 4-8 hours dev + 2 hours testing</li>
+</ul>
+</li>
+<li>
+<p>✅ <strong>Document corporate exception</strong> (if cap not enforceable)</p>
+<ul>
+<li>Get BMA written approval</li>
+<li>File in regulatory dossier</li>
+<li>Note: Higher priority if spreads historically &gt; 35bps</li>
+</ul>
+</li>
+<li>
+<p>✅ <strong>Monitor and test</strong> (current approach)</p>
+<ul>
+<li>Phase 3 edge case E4.5 tests spread cap behavior</li>
+<li>Manual verification each reporting date</li>
+<li>Document in Phase 3 edge case test results</li>
+</ul>
+</li>
+</ol>
+<p><strong>Action</strong>: Prioritize based on spread environment; coordinate with CFO + compliance</p>
+<hr>
+<h3 id="%E2%9A%A0%EF%B8%8F-medium-priority-callable-bond-validation-incomplete">⚠️ Medium Priority: Callable Bond Validation Incomplete</h3>
+<p><strong>Issue</strong>:</p>
+<ul>
+<li>Specification Section 3.3.8.4 marks callable bond handling as &quot;validation is ongoing&quot;</li>
+<li>Implementation exists (wave-off logic) but not fully stress-tested in extreme scenarios</li>
+<li>Option pricing may be incorrect under extreme IR moves</li>
+</ul>
+<p><strong>Expected behavior</strong>:</p>
+<ul>
+<li>When interest rates fall dramatically, bondholder exercises call option</li>
+<li>Bond value capped at strike (issuer calls it back)</li>
+<li>Currently modeled but not production-validated</li>
+</ul>
+<p><strong>Mitigation</strong>:</p>
+<ul>
+<li>Test case E3.3 (PHASE3-004) covers callable bond behavior</li>
+<li>Post-deployment monitoring (Q1 2024) for real portfolio impacts</li>
+<li>If issues found: Escalate to dev team for refinement</li>
+</ul>
+<p><strong>Status</strong>: Not blocking; monitor in validation phase</p>
+<hr>
+<h3 id="%E2%9A%A0%EF%B8%8F-medium-priority-dd-stress-testing-limited">⚠️ Medium Priority: D&amp;D Stress Testing Limited</h3>
+<p><strong>Issue</strong>:</p>
+<ul>
+<li>D&amp;D formula uses annual default rates only</li>
+<li>No intra-year defaults modeled (conservative but limited)</li>
+<li>Extreme annual rates (&gt;50%) not extensively tested</li>
+</ul>
+<p><strong>Mitigation</strong>:</p>
+<ul>
+<li>Edge cases E5.1-E5.3 (PHASE3-004) test annual rates from 0% to extreme</li>
+<li>Expected behavior documented with caveats</li>
+<li>Use in production with annual default rates only</li>
+</ul>
+<p><strong>Status</strong>: Known limitation; edge cases define expected behavior</p>
+<hr>
+<h2 id="page-10-how-to-use-this-document--learning-path">Page 10: How to Use This Document + Learning Path</h2>
+<h3 id="%22im-new-what-should-i-read-first%22">&quot;I'm new, what should I read first?&quot;</h3>
+<pre class="hljs"><code><div>Week 1 (Days 1-4): Regulatory Foundation
+├─ This document, Pages 1-3 → Understand BMA requirement + algorithm
+├─ This document, Pages 4-6 → Learn business rules
+└─ PHASE1-001-Architecture → See how it's implemented at Athora
+
+Week 2 (Days 5-10): Deep Implementation
+├─ IMPLEMENTATION-SPECIFICATION (see companion doc)
+├─ Code review: liability_cashflow.py, sba_goal_seeker.py
+└─ Configuration: alm_setup.xlsm settings
+
+Week 3 (Days 11-15): Validation &amp; Testing
+├─ PHASE3-001 → Test architecture
+├─ PHASE3-007 → Execute 54 test cases
+└─ PHASE3-006 → Understand known gaps
+</div></code></pre>
+<h3 id="quick-finding-guide">Quick Finding Guide</h3>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer Location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>&quot;Why does BMA require SBA?&quot;</strong></td>
+<td>Page 1</td>
+</tr>
+<tr>
+<td><strong>&quot;How does goal-seek find the BEL?&quot;</strong></td>
+<td>Pages 2-3</td>
+</tr>
+<tr>
+<td><strong>&quot;What assets can we use?&quot;</strong></td>
+<td>Pages 4-5</td>
+</tr>
+<tr>
+<td><strong>&quot;What's the D&amp;D formula?&quot;</strong></td>
+<td>Page 6</td>
+</tr>
+<tr>
+<td><strong>&quot;What are the critical parameters?&quot;</strong></td>
+<td>Pages 7-8</td>
+</tr>
+<tr>
+<td><strong>&quot;What could go wrong?&quot;</strong></td>
+<td>Page 9</td>
+</tr>
+<tr>
+<td><strong>&quot;How do I code this?&quot;</strong></td>
+<td>IMPLEMENTATION-SPECIFICATION document</td>
+</tr>
+<tr>
+<td><strong>&quot;How do I test this?&quot;</strong></td>
+<td>PHASE3-INDEX.md (then PHASE3-007)</td>
+</tr>
+<tr>
+<td><strong>&quot;Where's the detailed architecture?&quot;</strong></td>
+<td>PHASE1-001 to PHASE1-010</td>
+</tr>
+<tr>
+<td><strong>&quot;What's been verified?&quot;</strong></td>
+<td>PHASE2-004 (verification findings)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="recommended-reading-order-by-role">Recommended Reading Order (By Role)</h3>
+<p><strong>Actuaries</strong> (like you):</p>
+<ol>
+<li>Pages 1-9 of this document (executive summary)</li>
+<li><a href="PHASE1-001-Architecture-Overview.md">PHASE1-001-Architecture</a></li>
+<li><a href="PHASE1-002-SBA-Goal-Seeking.md">PHASE1-002-SBA-Goal-Seeking</a></li>
+<li><a href="PHASE1-005-Rebalancing-Allocation.md">PHASE1-005-Rebalancing</a></li>
+<li>IMPLEMENTATION-SPECIFICATION (companion doc)</li>
+</ol>
+<p><strong>Developers</strong>:</p>
+<ol>
+<li>Pages 2-3 of this document (algorithm overview)</li>
+<li>IMPLEMENTATION-SPECIFICATION (companion document)</li>
+<li><a href="PHASE1-001-Architecture-Overview.md">PHASE1-001-Architecture</a></li>
+<li>Code review: sba_goal_seeker.py, liability_cashflow.py</li>
+<li><a href="PHASE3-007-Test-Execution-Guide.md">PHASE3-007-Test-Execution</a></li>
+</ol>
+<p><strong>Risk/Compliance</strong>:</p>
+<ol>
+<li>Page 1 (regulatory context)</li>
+<li>Pages 4-9 (business rules + gaps)</li>
+<li><a href="PHASE3-006-Known-Gaps-Limitations.md">PHASE3-006-Known-Gaps</a></li>
+<li><a href="PHASE2-004-Spec-vs-Implementation-Report.md">PHASE2-004-Verification</a></li>
+</ol>
+<p><strong>Auditors/Regulators</strong>:</p>
+<ol>
+<li>Entire document (Pages 1-10)</li>
+<li><a href="PHASE2-005-Spec-vs-Implementation-Report.md">PHASE2-005-Verification</a></li>
+<li>All Phase 1 docs (if comprehensive review needed)</li>
+</ol>
+<hr>
+<h2 id="reference-matrix-this-document-%E2%86%94-complete-documentation-set">Reference Matrix: This Document ↔ Complete Documentation Set</h2>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>This Doc</th>
+<th>Phase 1</th>
+<th>Phase 2</th>
+<th>Phase 3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Regulatory context</td>
+<td>✅ Pages 1</td>
+<td><a href="PHASE1-001-Architecture-Overview.md">001</a></td>
+<td><a href="PHASE2-002-Checklist-Final.md">002</a></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>Algorithm overview</td>
+<td>✅ Pages 2-3</td>
+<td><a href="PHASE1-002-SBA-Goal-Seeking.md">001-002</a></td>
+<td><a href="PHASE2-001-Code-Verification-Findings.md">001</a></td>
+<td><a href="PHASE3-001-Test-Plan.md">001</a></td>
+</tr>
+<tr>
+<td>Asset eligibility</td>
+<td>✅ Pages 4-5</td>
+<td><a href="PHASE1-001-Architecture-Overview.md">referenced in 001</a></td>
+<td><a href="PHASE2-001-Code-Verification-Findings.md">001</a></td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>Rebalancing</td>
+<td>✅ Page 6</td>
+<td><a href="PHASE1-005-Rebalancing-Allocation.md">005</a></td>
+<td><a href="PHASE2-004-Spec-vs-Implementation-Report.md">004</a></td>
+<td><a href="PHASE3-002-Component-Unit-Tests.md">002</a></td>
+</tr>
+<tr>
+<td>D&amp;D formula</td>
+<td>✅ Page 6</td>
+<td><a href="PHASE1-009-Defaults-Downgrades.md">009</a></td>
+<td><a href="PHASE2-001-Code-Verification-Findings.md">001</a></td>
+<td><a href="PHASE3-004-Edge-Case-Stress-Tests.md">004</a></td>
+</tr>
+<tr>
+<td>Parameters</td>
+<td>✅ Pages 7-8</td>
+<td><a href="PHASE1-007-Configuration-Parameters.md">007</a></td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>Known gaps</td>
+<td>✅ Page 9</td>
+<td><a href="PHASE1-010-Spread-Cap-and-Outputs.md">010</a></td>
+<td><a href="PHASE2-004-Spec-vs-Implementation-Report.md">004</a></td>
+<td><a href="PHASE3-006-Known-Gaps-Limitations.md">006</a></td>
+</tr>
+<tr>
+<td>Testing</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td><a href="PHASE3-001-Test-Plan.md">001-007</a></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="summary">Summary</h2>
+<p><strong>SBA is fundamentally</strong>:</p>
+<ul>
+<li>Risk measurement framework (BMA requirement) ✅</li>
+<li>Scenario analysis across 9 economic cases ✅</li>
+<li>Deterministic 100-year projection model ✅</li>
+<li>Goal-seek to find minimum backing assets ✅</li>
+<li>Result: SBA BEL = highest asset requirement + SBA spread cap at 35bps ✅</li>
+</ul>
+<p><strong>Your immediate next steps</strong>:</p>
+<ol>
+<li>Read Pages 1-3 (regulatory + algorithm) today</li>
+<li>Read Pages 4-9 (business rules + gaps) tomorrow</li>
+<li>Move to IMPLEMENTATION-SPECIFICATION document (companion)</li>
+<li>Then dive into PHASE1 architecture docs</li>
+</ol>
+<p><strong>Key thing to remember</strong>:</p>
+<ul>
+<li>🟢 5 of 6 components verified as spec-compliant</li>
+<li>🔴 1 critical gap: Spread cap NOT enforced (need to fix or document)</li>
+<li>⚠️ 2 medium items: Callable bonds, D&amp;D stress testing</li>
+</ul>
+<hr>
+<p><strong>Document</strong>: SBA BEL Executive Summary for Actuary On-boarding<br>
+<strong>Status</strong>: Ready for use<br>
+<strong>Next</strong>: Read IMPLEMENTATION-SPECIFICATION document (developer-focused technical specs)</p>
+
+</body>
+</html>

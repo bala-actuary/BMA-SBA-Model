@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>IMPLEMENTATION-SPECIFICATION-SBA-BEL-Developer.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="sba-bel-model---implementation-specification-for-developers">SBA BEL Model - Implementation Specification for Developers</h1>
+<p><strong>Audience</strong>: Developers, QA engineers, technical architects<br>
+<strong>Duration</strong>: 3-4 hours comprehension + 8-10 hours code review<br>
+<strong>Purpose</strong>: Understand algorithm implementation, data flows, edge cases, testing requirements<br>
+<strong>Version</strong>: v1.0 | Created: March 24, 2026<br>
+<strong>Status</strong>: Active development + validation phase</p>
+<hr>
+<h2 id="page-1-high-level-system-architecture">Page 1: High-Level System Architecture</h2>
+<h3 id="component-stack">Component Stack</h3>
+<pre class="hljs"><code><div>┌─────────────────────────────────────────────────────────────┐
+│                     INPUT LAYER                              │
+│  Assets (CSV)  │  Liabilities (cashflows)  │  Config (Excel) │
+└────────────────┬────────────────────────────┬────────────────┘
+                 │                            │
+┌────────────────▼─────────────────────────┬──▼────────────────┐
+│         DATA LOADING &amp; VALIDATION         │  CONFIGURATION    │
+│  • CSV parsing                            │  LOADER           │
+│  • Cashflow aggregation                   │  • Settings class │
+│  • Asset classification                   │  • Parameter      │
+│  • Eligibility checking (150 units)       │    validation     │
+└────────────────┬─────────────────────────┴──┬────────────────┘
+                 │                            │
+┌────────────────▼──────────────────────────────▼───────────────┐
+│            PROJECTION ENGINE (Core Model)                     │
+│                                                               │
+│  FOR scenario = 0 to 8:  // Base + 8 IR scenarios           │
+│    FOR year = 1 to 100:  // Annual projection               │
+│      ├─ Calculate liability cashflows (scenario-dependent)   │
+│      ├─ Project asset cashflows (coupons, maturities)       │
+│      ├─ Apply defaults &amp; downgrades (D&amp;D scalar)            │
+│      ├─ Receive/pay derivative flows (swaps, FX, etc)       │
+│      ├─ Accrue investment return                            │
+│      ├─ Update IR curves (base + scenario shock)            │
+│      ├─ Update spreads (mean reversion)                     │
+│      ├─ Revalue assets at new rates                         │
+│      └─ Rebalance (TAA + KRD matching)                      │
+│                                                               │
+│  After projection completion:                                │
+│    └─ Record: Final asset value in scenario + cash balance  │
+└────────────────┬──────────────────────────────────────────────┘
+                 │
+┌────────────────▼──────────────────────────────────────────────┐
+│          GOAL-SEEK ENGINE (Find Minimum Assets)              │
+│                                                               │
+│  Input: Projection cashflow series (9 scenarios)             │
+│  Task: Find minimum t=0 assets such that:                    │
+│    • Assets never go negative (no borrowing)                 │
+│    • All liabilities covered                                 │
+│  Algorithm: Hybrid linear + bisection                        │
+│  Output: Asset amount = SBA BEL                              │
+└────────────────┬──────────────────────────────────────────────┘
+                 │
+┌────────────────▼──────────────────────────────────────────────┐
+│          SPREAD CALCULATION &amp; REPORTING                       │
+│                                                               │
+│  Calculate: SBA spread (inverse NPV)                         │
+│  Apply: 35bps cap (currently NOT implemented 🔴)             │
+│  Output: SBA BEL + SBA spread + metrics                      │
+└──────────────────────────────────────────────────────────────┘
+</div></code></pre>
+<h3 id="key-classesmodules">Key Classes/Modules</h3>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>File</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Settings</strong></td>
+<td>settings_loader.py</td>
+<td>Load 150+ parameters, validate ranges</td>
+</tr>
+<tr>
+<td><strong>Asset</strong></td>
+<td>asset_projector.py</td>
+<td>Hold asset data, apply D&amp;D, project cashflows</td>
+</tr>
+<tr>
+<td><strong>Liability</strong></td>
+<td>liability_cashflow.py</td>
+<td>Calculate liability NPV, KRD, interest rate sensitivity</td>
+</tr>
+<tr>
+<td><strong>Interest Rates</strong></td>
+<td>zspread_provider.py</td>
+<td>Manage yield curves, apply spreads, mean reversion</td>
+</tr>
+<tr>
+<td><strong>Swaps</strong></td>
+<td>swap_rebalancer.py</td>
+<td>DV01 calculations, rebalancing logic, target KRD matching</td>
+</tr>
+<tr>
+<td><strong>Projection</strong></td>
+<td>balance_sheet_projection.py</td>
+<td>Main loop: iterate years/scenarios, rebalance, accrue returns</td>
+</tr>
+<tr>
+<td><strong>Goal-Seek</strong></td>
+<td>sba_goal_seeker.py</td>
+<td>Hybrid linear/bisection algorithm to find minimum assets</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="pages-2-4-core-algorithm-specifications">Pages 2-4: Core Algorithm Specifications</h2>
+<h3 id="algorithm-1-goal-seek-find-minimum-assets">Algorithm 1: Goal-Seek (Find Minimum Assets)</h3>
+<p><strong>Purpose</strong>: Find minimum asset amount (at t=0) such that liability cashflows are covered across all years and scenarios</p>
+<p><strong>Input</strong>:</p>
+<ul>
+<li>$\text{Scenarios} = {base, stress_1, ..., stress_8}$ (9 total)</li>
+<li>$\text{Years} = {1, 2, ..., 100}$</li>
+<li>For each (scenario, year): <strong>liability_cf[scenario][year]</strong> (known)</li>
+</ul>
+<p><strong>Output</strong>:</p>
+<ul>
+<li>$A_0$ = Required t=0 assets</li>
+<li>$\text{biting_scenario}$ = Which scenario required maximum assets</li>
+</ul>
+<p><strong>Algorithm</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">goal_seek</span><span class="hljs-params">(scenarios, years, liability_cf, settings)</span>:</span>
+    <span class="hljs-string">"""
+    Hybrid linear + bisection goal-seek
+    """</span>
+    attempts = <span class="hljs-number">0</span>
+    linear_estimates = []
+    
+    <span class="hljs-keyword">while</span> attempts &lt; settings.max_attempts:  <span class="hljs-comment"># Default: 20</span>
+        
+        <span class="hljs-comment"># Phase 1: Try LINEAR INTERPOLATION (attempts 0-7)</span>
+        <span class="hljs-keyword">if</span> attempts &lt; <span class="hljs-number">8</span>:
+            <span class="hljs-comment"># Estimate based on prior attempts</span>
+            <span class="hljs-keyword">if</span> attempts == <span class="hljs-number">0</span>:
+                <span class="hljs-comment"># Initial guess: total liabilities / projection period</span>
+                estimated_assets = sum(liability_cf[base]) / <span class="hljs-number">100</span>
+            <span class="hljs-keyword">else</span>:
+                <span class="hljs-comment"># Interpolate between two prior attempts</span>
+                estimated_assets = linear_interpolate(linear_estimates[<span class="hljs-number">-2</span>:])
+            
+            <span class="hljs-comment"># Run projection with this estimate</span>
+            projection = run_projection(scenarios, estimated_assets)
+            
+            <span class="hljs-comment"># Check convergence</span>
+            min_cash = min(projection.cash_balance_all_periods_all_scenarios)
+            
+            <span class="hljs-keyword">if</span> abs(min_cash) &lt; settings.tolerance_optimal:
+                <span class="hljs-comment"># Converged!</span>
+                <span class="hljs-keyword">return</span> estimated_assets, scenarios[projection.max_scenario]
+            
+            <span class="hljs-comment"># Check for discontinuity (sign change in bracket)</span>
+            linear_estimates.append((estimated_assets, min_cash))
+            <span class="hljs-keyword">if</span> len(linear_estimates) &gt;= <span class="hljs-number">2</span>:
+                prev_assets, prev_cash = linear_estimates[<span class="hljs-number">-2</span>]
+                <span class="hljs-keyword">if</span> prev_cash &lt; <span class="hljs-number">0</span> &lt; min_cash:
+                    <span class="hljs-comment"># Bracket found! Switch to bisection</span>
+                    attempts = <span class="hljs-number">8</span>  <span class="hljs-comment"># Force bisection</span>
+                    <span class="hljs-keyword">continue</span>
+        
+        <span class="hljs-comment"># Phase 2: BISECTION (attempts 8+)</span>
+        <span class="hljs-keyword">if</span> attempts &gt;= <span class="hljs-number">8</span>:
+            <span class="hljs-comment"># Setup: find bracket [lower, upper]</span>
+            <span class="hljs-keyword">if</span> attempts == <span class="hljs-number">8</span>:
+                <span class="hljs-comment"># Create initial bracket from linear attempts</span>
+                lower = min(est[<span class="hljs-number">0</span>] <span class="hljs-keyword">for</span> est <span class="hljs-keyword">in</span> linear_estimates) * <span class="hljs-number">0.9</span>
+                upper = max(est[<span class="hljs-number">0</span>] <span class="hljs-keyword">for</span> est <span class="hljs-keyword">in</span> linear_estimates) * <span class="hljs-number">1.1</span>
+            
+            <span class="hljs-comment"># Standard bisection loop</span>
+            <span class="hljs-keyword">for</span> bisection_step <span class="hljs-keyword">in</span> range(settings.bisection_max_steps):
+                mid = (lower + upper) / <span class="hljs-number">2</span>
+                projection = run_projection(scenarios, mid)
+                min_cash = min(projection.cash_balance_all_periods_all_scenarios)
+                
+                <span class="hljs-keyword">if</span> abs(min_cash) &lt; settings.tolerance_optimal:
+                    <span class="hljs-keyword">return</span> mid, scenarios[projection.max_scenario]
+                
+                <span class="hljs-keyword">if</span> min_cash &lt; <span class="hljs-number">0</span>:
+                    lower = mid  <span class="hljs-comment"># Need more assets</span>
+                <span class="hljs-keyword">else</span>:
+                    upper = mid  <span class="hljs-comment"># Can use fewer assets</span>
+                
+                <span class="hljs-comment"># Check bisection convergence</span>
+                <span class="hljs-keyword">if</span> (upper - lower) / mid &lt; settings.tolerance_optimal:
+                    <span class="hljs-keyword">return</span> mid, scenarios[projection.max_scenario]
+        
+        attempts += <span class="hljs-number">1</span>
+    
+    <span class="hljs-comment"># Phase 3: FALLBACK (if 20 attempts exceeded)</span>
+    <span class="hljs-comment"># Use loose tolerance</span>
+    final_estimate = estimate_with_absolute_tolerance(settings.tolerance_absolute)
+    <span class="hljs-keyword">return</span> final_estimate, biting_scenario
+</div></code></pre>
+<p><strong>Key details</strong>:</p>
+<ul>
+<li><strong>Discontinuity detection</strong>: Linear method detects sign change → triggers bisection</li>
+<li><strong>Tolerance cascade</strong>: Optimal (0.001%) → Absolute (0.1%) → Hard stop</li>
+<li><strong>Max attempts</strong>: 20 (hybrid attempts, then bisection)</li>
+<li><strong>Convergence criterion</strong>: <code>abs(min_cash_balance) &lt; tolerance</code></li>
+</ul>
+<p><strong>Related code</strong>:</p>
+<ul>
+<li>File: <code>sba_goal_seeker.py</code> lines 200-450</li>
+<li>Test: <a href="PHASE3-002-Component-Unit-Tests.md">PHASE3-002</a> tests U6-U10</li>
+</ul>
+<hr>
+<h3 id="algorithm-2-annual-projection-within-each-scenario">Algorithm 2: Annual Projection Within Each Scenario</h3>
+<p><strong>Purpose</strong>: Project cashflows, values, and rebalancing for one scenario over 100 years</p>
+<p><strong>Pseudo-code</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">project_scenario</span><span class="hljs-params">(scenario_id, initial_assets, settings)</span>:</span>
+    <span class="hljs-string">"""
+    Project one scenario (base or stress) for 100 years
+    Returns: final_asset_value, end_of_year_cash_balances
+    """</span>
+    
+    <span class="hljs-comment"># Initialize</span>
+    assets = {spread: initial_assets}  <span class="hljs-comment"># Asset holdings by instrument</span>
+    cash = <span class="hljs-number">0</span>
+    ir_curve = settings.get_ir_curve(scenario_id, year=<span class="hljs-number">0</span>)  <span class="hljs-comment"># Euribor 6M</span>
+    spread = settings.get_spread(scenario_id, year=<span class="hljs-number">0</span>)  <span class="hljs-comment"># At t=0</span>
+    
+    <span class="hljs-keyword">for</span> year <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, <span class="hljs-number">101</span>):
+        
+        <span class="hljs-comment"># Step 1: Receive liability cashflows (and policy expenses)</span>
+        cf_liability = scenarios[scenario_id].liability_cf[year]
+        cf_expense = scenarios[scenario_id].expense_cf[year]
+        cash += cf_liability + cf_expense
+        
+        <span class="hljs-comment"># Step 2: Receive asset cashflows (coupons, prepayments, maturities)</span>
+        <span class="hljs-keyword">for</span> asset <span class="hljs-keyword">in</span> assets:
+            cf_asset = asset.get_coupon_and_maturity(year)
+            cash += cf_asset
+        
+        <span class="hljs-comment"># Step 3: Apply defaults and downgrades</span>
+        d_and_d_rate = settings.get_d_and_d_rate(asset.rating, year)
+        cumulative_dd = <span class="hljs-number">1</span> - (<span class="hljs-number">1</span> - d_and_d_rate) ** year
+        
+        <span class="hljs-comment"># Apply to market values AND cashflows</span>
+        <span class="hljs-keyword">for</span> asset <span class="hljs-keyword">in</span> assets:
+            asset.market_value *= (<span class="hljs-number">1</span> - cumulative_dd)
+            cf_received *= (<span class="hljs-number">1</span> - cumulative_dd)
+        
+        <span class="hljs-comment"># Step 4: Pay/receive swap cashflows</span>
+        <span class="hljs-keyword">for</span> swap <span class="hljs-keyword">in</span> swaps:
+            cf_swap = swap.get_cf(year)
+            cash += cf_swap
+        
+        <span class="hljs-comment"># Step 5: Pay investment management fees</span>
+        total_aum = sum(asset.market_value <span class="hljs-keyword">for</span> asset <span class="hljs-keyword">in</span> assets)
+        fee_bps = settings.investment_expense_bps
+        cash -= total_aum * fee_bps / <span class="hljs-number">10000</span>
+        
+        <span class="hljs-comment"># Step 6: Accrue investment return (roll cash forward)</span>
+        <span class="hljs-comment"># Assume cash earns risk-free rate</span>
+        rate_for_cash = ir_curve[year] + spread
+        cash *= (<span class="hljs-number">1</span> + rate_for_cash)
+        
+        <span class="hljs-comment"># Step 7: End of year</span>
+        <span class="hljs-comment"># Update IR curve for next year (apply scenario shock after year 1)</span>
+        ir_curve = settings.get_ir_curve_shocked(scenario_id, year + <span class="hljs-number">1</span>)
+        
+        <span class="hljs-comment"># Update spreads (mean reversion)</span>
+        spread = settings.get_spread_mean_reverted(scenario_id, year + <span class="hljs-number">1</span>)
+        
+        <span class="hljs-comment"># Step 8: Revalue all assets</span>
+        <span class="hljs-keyword">for</span> asset <span class="hljs-keyword">in</span> assets:
+            npv = asset.calculate_npv(ir_curve, spread)
+            asset.market_value = npv
+        
+        <span class="hljs-comment"># Step 9: REBALANCING (up to 3 iterations)</span>
+        <span class="hljs-keyword">for</span> rebalance_iteration <span class="hljs-keyword">in</span> range(<span class="hljs-number">3</span>):
+            
+            <span class="hljs-comment"># 9a: Swap rebalancing (KRD matching)</span>
+            <span class="hljs-comment">#     Target: Asset KRD - Liability KRD = 0</span>
+            asset_krd = calculate_asset_krd(assets, ir_curve, spread)
+            liability_krd = calculate_liability_krd(liabilities, ir_curve, method=<span class="hljs-string">'Risk_Free'</span>)
+            target_krd = asset_krd - liability_krd
+            
+            <span class="hljs-keyword">if</span> abs(target_krd) &gt; settings.krd_tolerance:
+                <span class="hljs-comment"># Execute swaps to hedge</span>
+                swaps_executed = rebalance_swaps_for_krd(target_krd, ir_curve)
+                <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> swaps_executed:
+                    <span class="hljs-keyword">break</span>  <span class="hljs-comment"># Convergence achieved</span>
+            
+            <span class="hljs-comment"># 9b: Physical rebalancing (TAA)</span>
+            <span class="hljs-comment">#     Target: Return to Target Asset Allocation</span>
+            current_allocation = {asset: asset.market_value / total_aum <span class="hljs-keyword">for</span> asset <span class="hljs-keyword">in</span> assets}
+            target_allocation = settings.get_taa()
+            
+            rebalance_needed = max(abs(current_allocation[a] - target_allocation[a]) 
+                                   <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> assets)
+            
+            <span class="hljs-keyword">if</span> rebalance_needed &gt; settings.taa_tolerance:
+                <span class="hljs-comment"># Sell overweight, buy underweight</span>
+                trades_executed = rebalance_to_taa(current_allocation, target_allocation)
+                
+                <span class="hljs-comment"># Incur transaction costs</span>
+                transaction_cost_bps = settings.transaction_cost_bps
+                cash -= total_aum * transaction_cost_bps / <span class="hljs-number">10000</span>
+                
+                <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> trades_executed:
+                    <span class="hljs-keyword">break</span>  <span class="hljs-comment"># Convergence achieved</span>
+        
+        <span class="hljs-comment"># Step 10: Record period end</span>
+        record_metrics(year, scenario_id, cash, assets, ir_curve, spread)
+    
+    <span class="hljs-comment"># End of scenario projection</span>
+    final_asset_value = sum(asset.market_value <span class="hljs-keyword">for</span> asset <span class="hljs-keyword">in</span> assets) + cash
+    <span class="hljs-keyword">return</span> {
+        <span class="hljs-string">'final_asset_value'</span>: final_asset_value,
+        <span class="hljs-string">'cash_balances'</span>: cash_balances_by_period,
+        <span class="hljs-string">'asset_values'</span>: asset_values_by_period,
+        <span class="hljs-string">'krd_positions'</span>: krd_positions_by_period
+    }
+</div></code></pre>
+<p><strong>Key Decision Points</strong>:</p>
+<ol>
+<li><strong>Line &quot;Step 1&quot;</strong>: Liability CF is SCENARIO-DEPENDENT (includes policyholder optionality)</li>
+<li><strong>Line &quot;Step 3&quot;</strong>: D&amp;D applies to BOTH market value AND cashflows (dual application)</li>
+<li><strong>Line &quot;Step 9a&quot;</strong>: KRD method = Risk_Free (zspread = 0) per liability_cashflow.py:92-97</li>
+<li><strong>Line &quot;Step 9&quot;</strong>: Up to 3 iterations; early exit if convergence achieved</li>
+<li><strong>Line &quot;Step 9b&quot;</strong>: TAA rebalancing; 🔴 NOTE: 35bps spread cap NOT applied here</li>
+</ol>
+<p><strong>Related code</strong>:</p>
+<ul>
+<li>File: <code>balance_sheet_projection.py</code> lines 100-250</li>
+<li>Test: <a href="PHASE3-003-Integration-Test-Scenarios.md">PHASE3-003</a> tests I1-I8</li>
+</ul>
+<hr>
+<h3 id="algorithm-3-derivative-rebalancing-krd-matching">Algorithm 3: Derivative Rebalancing (KRD Matching)</h3>
+<p><strong>Purpose</strong>: Execute swaps to keep interest rate duration matched between assets and liabilities</p>
+<p><strong>Formula</strong>:</p>
+<p>$$\text{Target IR Swap Position} = \text{Asset DV01} - \text{Liability DV01}$$</p>
+<p>Where:</p>
+<ul>
+<li>$\text{DV01} = \frac{\partial \text{NPV}}{\partial r}$ (change in NPV per 1bp IR move)</li>
+<li>If Asset DV01 &gt; Liability DV01 → Need receive-fixed swap (short rates)</li>
+<li>If Asset DV01 &lt; Liability DV01 → Need pay-fixed swap (long rates)</li>
+</ul>
+<p><strong>Implementation</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">rebalance_swaps_for_krd</span><span class="hljs-params">(target_dv01, ir_curve, settings)</span>:</span>
+    <span class="hljs-string">"""
+    Execute swaps to reach target DV01 balance
+    """</span>
+    <span class="hljs-comment"># Calculate current KRDs</span>
+    asset_krd = sum(asset.dv01(ir_curve) <span class="hljs-keyword">for</span> asset <span class="hljs-keyword">in</span> assets)
+    liability_krd = liability.calculate_krd(ir_curve, method=<span class="hljs-string">'Risk_Free'</span>)
+    
+    current_dv01_gap = asset_krd - liability_krd
+    
+    <span class="hljs-comment"># Calculate swap requirement</span>
+    dv01_to_cover = target_dv01 - current_dv01_gap
+    
+    <span class="hljs-comment"># Calculate swap terms</span>
+    <span class="hljs-keyword">if</span> abs(dv01_to_cover) &lt; settings.dv01_tolerance:
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>  <span class="hljs-comment"># Converged, no swap needed</span>
+    
+    <span class="hljs-comment"># Size the swap (typical: standardized swaps with fixed DV01)</span>
+    swap_size = dv01_to_cover / settings.standard_swap_dv01
+    
+    <span class="hljs-keyword">if</span> swap_size &gt; <span class="hljs-number">0</span>:
+        <span class="hljs-comment"># Need receive-fixed (hedge against rising rates)</span>
+        swap = IRSwap(
+            notional=swap_size,
+            fixed_rate=ir_curve[<span class="hljs-number">5</span>],  <span class="hljs-comment"># 5Y rate assumed</span>
+            pv01=settings.standard_swap_dv01,
+            direction=<span class="hljs-string">'Receive'</span>
+        )
+    <span class="hljs-keyword">else</span>:
+        <span class="hljs-comment"># Need pay-fixed (hedge against falling rates)</span>
+        swap = IRSwap(
+            notional=abs(swap_size),
+            fixed_rate=ir_curve[<span class="hljs-number">5</span>],
+            pv01=settings.standard_swap_dv01,
+            direction=<span class="hljs-string">'Pay'</span>
+        )
+    
+    <span class="hljs-comment"># Add to portfolio</span>
+    swaps.append(swap)
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>  <span class="hljs-comment"># Swap executed</span>
+</div></code></pre>
+<p><strong>Key Parameters</strong>:</p>
+<ul>
+<li><strong>liability_dv01_calibration_method</strong>: Must be <code>Risk_Free</code> (line 92-97 of liability_cashflow.py)</li>
+<li><strong>dv01_tolerance</strong>: Convergence threshold (e.g., 0.001 = 1bp sensitivity)</li>
+<li><strong>standard_swap_characteristics</strong>: Tenor, fixed rate, notional conventions</li>
+</ul>
+<p><strong>Related code</strong>:</p>
+<ul>
+<li>File: <code>swap_rebalancer.py</code> lines 240-350</li>
+<li>Test: <a href="PHASE3-002-Component-Unit-Tests.md">PHASE3-002</a> test U16-U20</li>
+</ul>
+<hr>
+<h2 id="pages-5-7-component-level-specifications">Pages 5-7: Component-Level Specifications</h2>
+<h3 id="component-1-interest-rate-curves--scenarios">Component 1: Interest Rate Curves &amp; Scenarios</h3>
+<p><strong>Input</strong>:</p>
+<ul>
+<li>Euribor 6M swap rates (15 annual + 8 5-year tenors to 50Y)</li>
+<li>Interpolation method (linear)</li>
+<li>Extrapolation beyond 50Y (flat)</li>
+</ul>
+<p><strong>Processing</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">YieldCurve</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, swap_rates_dict)</span>:</span>
+        <span class="hljs-comment"># swap_rates_dict: {tenor_year: rate}</span>
+        <span class="hljs-comment"># Example: {1: 0.025, 2: 0.030, ..., 50: 0.035}</span>
+        
+        <span class="hljs-comment"># Interpolate illiquid tenors</span>
+        self.spot_rates = self.interpolate_spot_curve(swap_rates_dict)
+        
+        <span class="hljs-comment"># Extrapolate beyond 50Y</span>
+        <span class="hljs-keyword">for</span> year <span class="hljs-keyword">in</span> range(<span class="hljs-number">51</span>, <span class="hljs-number">101</span>):
+            self.spot_rates[year] = self.spot_rates[<span class="hljs-number">50</span>]  <span class="hljs-comment"># Flat</span>
+    
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_forward_rate</span><span class="hljs-params">(self, from_year, to_year)</span>:</span>
+        <span class="hljs-string">"""Calculate implied forward rate"""</span>
+        <span class="hljs-comment"># Forward = (1 + spot_to)^to / (1 + spot_from)^from - 1</span>
+        <span class="hljs-keyword">return</span> ((<span class="hljs-number">1</span> + self.spot_rates[to_year]) ** to_year / 
+                (<span class="hljs-number">1</span> + self.spot_rates[from_year]) ** from_year) ** (<span class="hljs-number">1</span> / (to_year - from_year)) - <span class="hljs-number">1</span>
+    
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">apply_scenario_shock</span><span class="hljs-params">(self, scenario_id, year)</span>:</span>
+        <span class="hljs-string">"""Apply BMA-specified IR shock per scenario"""</span>
+        shock_bps = settings.get_shock(scenario_id, year)
+        <span class="hljs-keyword">return</span> YieldCurve({tenor: rate + shock_bps/<span class="hljs-number">10000</span> <span class="hljs-keyword">for</span> tenor, rate <span class="hljs-keyword">in</span> self.spot_rates.items()})
+</div></code></pre>
+<p><strong>Scenarios (per BMA Article 28(7))</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Year 1-10 Shock</th>
+<th>Year 11-100 Shock</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 (Base)</td>
+<td>0 bps</td>
+<td>0 bps</td>
+</tr>
+<tr>
+<td>1 (Up 25)</td>
+<td>+25 bps all</td>
+<td>+25 bps all</td>
+</tr>
+<tr>
+<td>2 (Down 25)</td>
+<td>-25 bps all</td>
+<td>-25 bps all</td>
+</tr>
+<tr>
+<td>3 (Up 25 flipped)</td>
+<td>+25 bps then -25</td>
+<td>-25 bps</td>
+</tr>
+<tr>
+<td>4 (Down 25 flipped)</td>
+<td>-25 bps then +25</td>
+<td>+25 bps</td>
+</tr>
+<tr>
+<td>5 (Flattening)</td>
+<td>Front +50, Back -50</td>
+<td>Blend to 0</td>
+</tr>
+<tr>
+<td>6 (Steepening)</td>
+<td>Front -50, Back +50</td>
+<td>Blend to 0</td>
+</tr>
+<tr>
+<td>7 (Short up)</td>
+<td>+50 bps (0-5Y), +25 bps (5Y+)</td>
+<td>+25 bps</td>
+</tr>
+<tr>
+<td>8 (Long up)</td>
+<td>-25 bps (0-5Y), +50 bps (5Y+)</td>
+<td>+50 bps</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Output</strong>:</p>
+<ul>
+<li>Spot yield curve by year and scenario</li>
+<li>Forward rates for period-by-period discounting</li>
+</ul>
+<p><strong>Related code</strong>:</p>
+<ul>
+<li>File: <code>zspread_provider.py</code> (full file)</li>
+<li>File: <code>settings_loader.py</code> lines 45-110 (scenario definitions)</li>
+<li>Test: <a href="PHASE3-002-Component-Unit-Tests.md">PHASE3-002</a> tests U21-U26</li>
+</ul>
+<hr>
+<h3 id="component-2-liability-cashflows--krd">Component 2: Liability Cashflows &amp; KRD</h3>
+<p><strong>Input</strong>:</p>
+<ul>
+<li>Cashflow schedule by scenario, by year</li>
+<li>Interest rate sensitivity (duration)</li>
+</ul>
+<p><strong>Processing</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LiabilityCashflow</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, cf_dict, settings)</span>:</span>
+        self.cf = cf_dict  <span class="hljs-comment"># {year: amount, ...}</span>
+        self.krd_method = settings.liability_dv01_calibration_method
+    
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">calculate_npv</span><span class="hljs-params">(self, ir_curve, spread, zspread)</span>:</span>
+        <span class="hljs-string">"""
+        Calculate liability NPV
+        ⚠️  CRITICAL: zspread must be 0 for Risk_Free method
+        """</span>
+        <span class="hljs-keyword">if</span> self.krd_method == LiabilityDV01CalibrationMethod.Risk_Free:
+            zspread = <span class="hljs-number">0.0</span>  <span class="hljs-comment"># ✅ Correct</span>
+        <span class="hljs-keyword">elif</span> self.krd_method == LiabilityDV01CalibrationMethod.Risk_Free_plus_SBA_Spread:
+            zspread = zspread  <span class="hljs-comment"># ❌ Wrong for SBA (but option available)</span>
+        
+        npv = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">for</span> year, cf_amount <span class="hljs-keyword">in</span> self.cf.items():
+            discount_rate = ir_curve[year] + zspread
+            npv += cf_amount / ((<span class="hljs-number">1</span> + discount_rate) ** year)
+        
+        <span class="hljs-keyword">return</span> npv
+    
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">calculate_krd</span><span class="hljs-params">(self, ir_curve, stress_bps=<span class="hljs-number">1</span>)</span>:</span>
+        <span class="hljs-string">"""
+        Key Rate Duration: Sensitivity to 1Y shock at each tenor
+        Formula: KRD = (NPV_up - NPV_down) / (2 * stress_bps * total_cf)
+        """</span>
+        krd_by_tenor = {}
+        <span class="hljs-keyword">for</span> tenor <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, <span class="hljs-number">51</span>):
+            <span class="hljs-comment"># Bump this tenor's rate</span>
+            ir_curve_up = ir_curve.copy()
+            ir_curve_up[tenor] += stress_bps / <span class="hljs-number">10000</span>
+            npv_up = self.calculate_npv(ir_curve_up, <span class="hljs-number">0</span>)  <span class="hljs-comment"># zspread=0 per Risk_Free</span>
+            
+            ir_curve_down = ir_curve.copy()
+            ir_curve_down[tenor] -= stress_bps / <span class="hljs-number">10000</span>
+            npv_down = self.calculate_npv(ir_curve_down, <span class="hljs-number">0</span>)
+            
+            krd_tenor = (npv_up - npv_down) / (<span class="hljs-number">2</span> * stress_bps / <span class="hljs-number">10000</span>)
+            krd_by_tenor[tenor] = krd_tenor
+        
+        <span class="hljs-keyword">return</span> krd_by_tenor
+</div></code></pre>
+<p><strong>Critical decision</strong>:</p>
+<ul>
+<li>Line &quot;if self.krd_method == Risk_Free&quot;: <code>zspread = 0</code> ✅</li>
+<li>File location: <code>liability_cashflow.py</code> lines 92-97</li>
+<li>Test: <a href="PHASE3-002-Component-Unit-Tests.md">PHASE3-002</a> tests U11-U15</li>
+<li><strong>Verified</strong>: Risk_Free configured in alm_setup.xlsm ✅</li>
+</ul>
+<p><strong>Related code</strong>:</p>
+<ul>
+<li>File: <code>liability_cashflow.py</code> lines 85-210</li>
+<li>Test: <a href="PHASE3-002-Component-Unit-Tests.md">PHASE3-002</a></li>
+</ul>
+<hr>
+<h3 id="component-3-defaults--downgrades-dd">Component 3: Defaults &amp; Downgrades (D&amp;D)</h3>
+<p><strong>Formula</strong>:</p>
+<p>$$\text{Cumulative Default Rate}(t) = 1 - (1 - r_{\text{annual}})^t$$</p>
+<p><strong>Application</strong> (DUAL):</p>
+<ol>
+<li><strong>To market values</strong>: <code>MV_t = MV_0 \times (1 - D\&amp;D(t))</code></li>
+<li><strong>To cashflows</strong>: <code>CF_t = CF_{\text{scheduled}} \times (1 - D\&amp;D(t))</code></li>
+</ol>
+<p><strong>Implementation</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">apply_d_and_d</span><span class="hljs-params">(annual_default_rate, year)</span>:</span>
+    <span class="hljs-string">"""
+    Calculate cumulative D&amp;D scalar for given year
+    """</span>
+    cumulative_dd_rate = <span class="hljs-number">1</span> - (<span class="hljs-number">1</span> - annual_default_rate) ** year
+    
+    <span class="hljs-comment"># Bounds validation</span>
+    <span class="hljs-keyword">assert</span> <span class="hljs-number">0</span> &lt;= cumulative_dd_rate &lt;= <span class="hljs-number">1</span>, <span class="hljs-string">f"D&amp;D out of bounds: <span class="hljs-subst">{cumulative_dd_rate}</span>"</span>
+    
+    <span class="hljs-comment"># Return scalar to apply to both MV and CF</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span> - cumulative_dd_rate  <span class="hljs-comment"># Remaining fraction</span>
+
+<span class="hljs-comment"># Usage:</span>
+<span class="hljs-keyword">for</span> asset <span class="hljs-keyword">in</span> assets:
+    dd_scalar = apply_d_and_d(asset.default_rate, year)
+    asset.market_value *= dd_scalar
+    asset.cf_coupon *= dd_scalar
+</div></code></pre>
+<p><strong>Verification</strong>:</p>
+<ul>
+<li>Formula matches spec exactly: $1-(1-X)^t$ ✅</li>
+<li>Applied to both MV and CF (dual application) ✅</li>
+<li>Assertions for bounds checking ✅</li>
+<li>File: <code>asset_projector.py</code> lines 161-190</li>
+</ul>
+<p><strong>Related code</strong>:</p>
+<ul>
+<li>File: <code>asset_projector.py</code> lines 161-190</li>
+<li>Test: <a href="PHASE3-002-Component-Unit-Tests.md">PHASE3-002</a> tests U1-U5</li>
+</ul>
+<hr>
+<h3 id="component-4-sba-spread-calculation--capping">Component 4: SBA Spread Calculation &amp; Capping</h3>
+<p><strong>Purpose</strong>: Calculate constant spread above risk-free rates that values liabilities = assets</p>
+<p><strong>Formula</strong>:</p>
+<p>$$\text{Assets}(t=0) = \text{NPV}<em>{\text{Liabilities}} \left( r</em>{\text{risk-free}} + s_{\text{SBA}} \right)$$</p>
+<p>Where: $s_{\text{SBA}}$ = SBA spread (solve for this)</p>
+<p><strong>Implementation</strong> (currently missing cap 🔴):</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">calculate_sba_spread</span><span class="hljs-params">(asset_value_total, liability_cf, ir_curve, settings)</span>:</span>
+    <span class="hljs-string">"""
+    Solve for SBA spread via goal-seek
+    """</span>
+    <span class="hljs-comment"># Goal: Find spread such that NPV_liab(IR + spread) = asset_value</span>
+    
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">npv_diff</span><span class="hljs-params">(spread_candidate)</span>:</span>
+        npv_liab = calculate_npv(liability_cf, ir_curve, spread_candidate)
+        <span class="hljs-keyword">return</span> npv_liab - asset_value_total
+    
+    <span class="hljs-comment"># Goal-seek solve</span>
+    sba_spread = bisect(npv_diff, left=<span class="hljs-number">0</span>, right=<span class="hljs-number">0.10</span>)  <span class="hljs-comment"># 0-1000 bps</span>
+    
+    <span class="hljs-comment"># 🔴 CRITICAL GAP: Spread cap NOT enforced</span>
+    <span class="hljs-comment"># Should be: sba_spread = min(sba_spread, 0.0035)  # 35 bps cap</span>
+    <span class="hljs-comment"># But this line is MISSING from the code!</span>
+    
+    <span class="hljs-keyword">return</span> sba_spread
+</div></code></pre>
+<p><strong>Known Gap</strong>:</p>
+<ul>
+<li>Parameter <code>sba_spread_cap</code> = 0.0035 (35 bps) defined</li>
+<li>But NEVER USED in calculation above 🔴</li>
+<li>File: <code>settings_loader.py</code> line 76 (definition only)</li>
+<li>Grep: &quot;spread_cap&quot; appears 1 time (definition), 0 times (enforcement)</li>
+<li><strong>Impact</strong>: Regulatory non-compliance if spreads &gt; 35bps</li>
+</ul>
+<p><strong>Mitigation Options</strong>:</p>
+<ol>
+<li>✅ Add line: <code>sba_spread = min(sba_spread, settings.sba_spread_cap)</code></li>
+<li>✅ Document exception if cap not needed per risk assessment</li>
+<li>✅ Test via edge case E4.5 (PHASE3-004)</li>
+</ol>
+<p><strong>Related code</strong>:</p>
+<ul>
+<li>File: <code>settings_loader.py</code> line 76 (cap defined but not used 🔴)</li>
+<li>File: <code>liability_cashflow.py</code> lines 156-210 (spread application)</li>
+<li>Test: <a href="PHASE3-004-Edge-Case-Stress-Tests.md">PHASE3-004</a> test E4.5</li>
+</ul>
+<hr>
+<h2 id="pages-8-9-data-structures--parameters">Pages 8-9: Data Structures &amp; Parameters</h2>
+<h3 id="critical-configuration-parameters-almsetupxlsm">Critical Configuration Parameters (alm_setup.xlsm)</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Range</th>
+<th>Default</th>
+<th>Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>goal_seek_tolerance_optimal</strong></td>
+<td>float</td>
+<td>0.0001%-0.01%</td>
+<td>0.001%</td>
+<td>Goal-seek convergence precision</td>
+</tr>
+<tr>
+<td><strong>goal_seek_tolerance_absolute</strong></td>
+<td>float</td>
+<td>0.01%-1%</td>
+<td>0.1%</td>
+<td>Fallback if optimal doesn't converge</td>
+</tr>
+<tr>
+<td><strong>max_goal_seek_attempts</strong></td>
+<td>int</td>
+<td>10-50</td>
+<td>20</td>
+<td>Hard stop for goal-seek iterations</td>
+</tr>
+<tr>
+<td><strong>liability_krd_method</strong></td>
+<td>enum</td>
+<td>{Risk_Free, Risk_Free_plus_SBA_Spread}</td>
+<td>Risk_Free</td>
+<td>✅ MUST BE Risk_Free</td>
+</tr>
+<tr>
+<td><strong>sba_spread_cap</strong></td>
+<td>float</td>
+<td>0-1000 bps</td>
+<td>35 bps</td>
+<td>🔴 Defined but NOT used</td>
+</tr>
+<tr>
+<td><strong>investment_expense_bps</strong></td>
+<td>float</td>
+<td>0-100 bps</td>
+<td>Asset-driven</td>
+<td>Annual fee on AUM</td>
+</tr>
+<tr>
+<td><strong>transaction_cost_bps</strong></td>
+<td>float</td>
+<td>0-50 bps</td>
+<td>2-5 bps</td>
+<td>Cost per rebalancing trade</td>
+</tr>
+<tr>
+<td><strong>dv01_tolerance</strong></td>
+<td>float</td>
+<td>0.0001-0.01</td>
+<td>0.001</td>
+<td>KRD convergence threshold</td>
+</tr>
+<tr>
+<td><strong>taa_tolerance</strong></td>
+<td>float</td>
+<td>0.01-1%</td>
+<td>0.1%</td>
+<td>TAA rebalancing trigger</td>
+</tr>
+<tr>
+<td><strong>projection_years</strong></td>
+<td>int</td>
+<td>50-200</td>
+<td>100</td>
+<td>Projection horizon</td>
+</tr>
+<tr>
+<td><strong>spread_mean_reversion_rho</strong></td>
+<td>float</td>
+<td>0.8-0.99</td>
+<td>0.95</td>
+<td>Mean reversion speed (per year)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="input-data-structures">Input Data Structures</h3>
+<p><strong>Asset Portfolio</strong> (CSV format):</p>
+<pre class="hljs"><code><div>ISIN,AssetName,Type,Rating,Maturity,Coupon,MarketValue,Spread
+DE0001141400,Bund,Sovereign,AAA,2027-06-30,0.0050,1000000,0.0005
+DE0005140008,DBU Senior,Corporate,A,2030-12-31,0.0175,2500000,0.0085
+NL0009015000,ABN Dutch RML,Mortgage,Unrated,2035-03-31,0.0250,5000000,0.0015
+...
+</div></code></pre>
+<p><strong>Liability Cashflows</strong> (By scenario, provided by Business Units):</p>
+<pre class="hljs"><code><div>Year,ScenarioBase,ScenarioUp25,ScenarioDown25,...
+1,5000000,4950000,5050000,...
+2,5100000,5000000,5200000,...
+...
+100,1000000,950000,1050000,...
+</div></code></pre>
+<p><strong>Configuration Sheet</strong> (in alm_setup.xlsm):</p>
+<pre class="hljs"><code><div>Parameter,Value
+goal_seek_tolerance_optimal,0.001%
+liability_krd_method,Risk_Free
+sba_spread_cap,35bps
+dryrun_mode,FALSE
+...
+</div></code></pre>
+<h3 id="output-data-structures">Output Data Structures</h3>
+<p><strong>SBA Results</strong>:</p>
+<pre class="hljs"><code><div>{
+  <span class="hljs-attr">"sba_bel"</span>: <span class="hljs-number">1250000</span>,
+  <span class="hljs-attr">"sba_spread"</span>: <span class="hljs-number">0.0032</span>,  <span class="hljs-comment">// 32 bps (below 35 bps cap, if enforced)</span>
+  <span class="hljs-attr">"biting_scenario"</span>: <span class="hljs-string">"Down 25bps"</span>,
+  <span class="hljs-attr">"scenario_results"</span>: {
+    <span class="hljs-attr">"Base"</span>: {<span class="hljs-attr">"assets_required"</span>: <span class="hljs-number">1200000</span>, <span class="hljs-attr">"final_spread"</span>: <span class="hljs-number">0.0030</span>},
+    <span class="hljs-attr">"Up 25"</span>: {<span class="hljs-attr">"assets_required"</span>: <span class="hljs-number">1180000</span>, <span class="hljs-attr">"final_spread"</span>: <span class="hljs-number">0.0028</span>},
+    ...
+  },
+  <span class="hljs-attr">"krd_position"</span>: {
+    <span class="hljs-attr">"asset_krd"</span>: [<span class="hljs-number">-50</span>, <span class="hljs-number">-45</span>, <span class="hljs-number">-40</span>, ...],  <span class="hljs-comment">// By tenor</span>
+    <span class="hljs-attr">"liability_krd"</span>: [<span class="hljs-number">-50</span>, <span class="hljs-number">-45</span>, <span class="hljs-number">-38</span>, ...],
+    <span class="hljs-attr">"swap_hedges"</span>: [{<span class="hljs-attr">"tenor"</span>: <span class="hljs-string">"5Y"</span>, <span class="hljs-attr">"notional"</span>: <span class="hljs-number">500000</span>, <span class="hljs-attr">"direction"</span>: <span class="hljs-string">"Receive"</span>}]
+  },
+  <span class="hljs-attr">"validation"</span>: {
+    <span class="hljs-attr">"cash_never_negative"</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">"all_liabilities_covered"</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">"convergence_achieved"</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">"goal_seek_attempts"</span>: <span class="hljs-number">12</span>
+  }
+}
+</div></code></pre>
+<hr>
+<h2 id="pages-10-11-edge-case-handling--error-scenarios">Pages 10-11: Edge Case Handling &amp; Error Scenarios</h2>
+<h3 id="edge-case-1-negative-cash-balance-during-projection">Edge Case 1: Negative Cash Balance During Projection</h3>
+<p><strong>Scenario</strong>: Despite t=0 asset amount, intermediate year goes negative</p>
+<p><strong>Handling</strong>:</p>
+<pre class="hljs"><code><div>min_cash = min(cash_ledger[all_years])
+<span class="hljs-keyword">if</span> min_cash &lt; <span class="hljs-number">0</span>:
+    <span class="hljs-comment"># This scenario infeasible; goal-seek needs more assets</span>
+    <span class="hljs-keyword">return</span> {
+        <span class="hljs-string">'feasible'</span>: <span class="hljs-literal">False</span>,
+        <span class="hljs-string">'deficit'</span>: abs(min_cash),
+        <span class="hljs-string">'deficit_year'</span>: year_with_min_cash
+    }
+</div></code></pre>
+<p><strong>Related test</strong>: <a href="PHASE3-004-Edge-Case-Stress-Tests.md">PHASE3-004</a> edge case E7</p>
+<hr>
+<h3 id="edge-case-2-goal-seek-non-convergence">Edge Case 2: Goal-Seek Non-Convergence</h3>
+<p><strong>Scenario</strong>: After 20 attempts, convergence not achieved</p>
+<p><strong>Handling</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">if</span> attempts &gt;= settings.max_goal_seek_attempts:
+    <span class="hljs-comment"># Fall back to loose tolerance</span>
+    final_estimate = best_estimate_with_tolerance(
+        settings.tolerance_absolute
+    )
+    log.warning(<span class="hljs-string">f"Goal-seek reached max attempts; using absolute tolerance"</span>)
+    <span class="hljs-keyword">return</span> {
+        <span class="hljs-string">'estimate'</span>: final_estimate,
+        <span class="hljs-string">'confidence'</span>: <span class="hljs-string">'LOW'</span>,
+        <span class="hljs-string">'tolerance_used'</span>: settings.tolerance_absolute
+    }
+</div></code></pre>
+<p><strong>Related test</strong>: <a href="PHASE3-004-Edge-Case-Stress-Tests.md">PHASE3-004</a> edge case E10</p>
+<hr>
+<h3 id="edge-case-3-krd-rebalancing-impossible">Edge Case 3: KRD Rebalancing Impossible</h3>
+<p><strong>Scenario</strong>: Cannot achieve exact KRD match (e.g., insufficient swap liquidity)</p>
+<p><strong>Handling</strong>:</p>
+<pre class="hljs"><code><div>krd_gap = abs(asset_krd - liability_krd)
+<span class="hljs-keyword">if</span> krd_gap &gt; settings.krd_tolerance * <span class="hljs-number">10</span>:  <span class="hljs-comment"># Exceptionally large</span>
+    log.error(<span class="hljs-string">f"KRD gap <span class="hljs-subst">{krd_gap}</span> exceeds acceptable threshold"</span>)
+    <span class="hljs-comment"># Early exit from rebalancing; record gap</span>
+    <span class="hljs-keyword">return</span> {
+        <span class="hljs-string">'converged'</span>: <span class="hljs-literal">False</span>,
+        <span class="hljs-string">'remaining_gap'</span>: krd_gap,
+        <span class="hljs-string">'action'</span>: <span class="hljs-string">'Escalate to risk management'</span>
+    }
+</div></code></pre>
+<p><strong>Related test</strong>: <a href="PHASE3-004-Edge-Case-Stress-Tests.md">PHASE3-004</a> edge case E18</p>
+<hr>
+<h3 id="edge-case-4-dd-rate-extreme">Edge Case 4: D&amp;D Rate Extreme</h3>
+<p><strong>Scenario</strong>: Annual default rate &gt; 50% or near 100%</p>
+<p><strong>Boundaries</strong>:</p>
+<pre class="hljs"><code><div>annual_dd_rate = asset.get_default_rate()
+<span class="hljs-keyword">assert</span> <span class="hljs-number">0</span> &lt;= annual_dd_rate &lt;= <span class="hljs-number">1.0</span>, <span class="hljs-string">f"D&amp;D rate invalid: <span class="hljs-subst">{annual_dd_rate}</span>"</span>
+
+cumulative_dd = <span class="hljs-number">1</span> - (<span class="hljs-number">1</span> - annual_dd_rate) ** year
+<span class="hljs-comment"># Mathematically valid for any rate in [0, 1]</span>
+<span class="hljs-comment"># Year 100 with 100% annual: Cumulative → 100% (entire asset lost)</span>
+<span class="hljs-comment"># Year 100 with 1% annual: Cumulative → 63.4% (most lost)</span>
+
+<span class="hljs-keyword">return</span> cumulative_dd  <span class="hljs-comment"># Always valid</span>
+</div></code></pre>
+<p><strong>Related test</strong>: <a href="PHASE3-004-Edge-Case-Stress-Tests.md">PHASE3-004</a> edge cases E5.1-E5.3</p>
+<hr>
+<h2 id="pages-12-testing--validation-requirements">Pages 12: Testing &amp; Validation Requirements</h2>
+<h3 id="test-coverage-summary">Test Coverage Summary</h3>
+<p><strong>Unit Tests</strong> (26 tests):</p>
+<ul>
+<li>D&amp;D formula: 5 tests</li>
+<li>Goal-seek algorithm: 5 tests</li>
+<li>KRD calculation: 5 tests</li>
+<li>Rebalancing: 5 tests</li>
+<li>Z-spread: 6 tests</li>
+</ul>
+<p><strong>Integration Tests</strong> (8 tests):</p>
+<ul>
+<li>6-month projection: I1</li>
+<li>1-year projection: I2</li>
+<li>101-year full term: I3</li>
+<li>Market stress scenario: I4</li>
+<li>Credit event: I5</li>
+<li>Data integrity: I6</li>
+<li>Rebalancing convergence: I7</li>
+<li>End-to-end update: I8</li>
+</ul>
+<p><strong>Edge Case Tests</strong> (20 tests):</p>
+<ul>
+<li>Portfolio extremes: E1-E3</li>
+<li>Market stress: E4-E6</li>
+<li>Data anomalies: E7-E9</li>
+<li>Numerical edge cases: E10-E14</li>
+<li>Configuration bounds: E15-E17</li>
+<li>Error handling: E18-E20</li>
+</ul>
+<p><strong>Regression Framework</strong>: Baseline capture + drift detection</p>
+<hr>
+<h2 id="summary-developer-checklist">Summary: Developer Checklist</h2>
+<p>Before going to production:</p>
+<ul>
+<li><input type="checkbox" id="checkbox0"><label for="checkbox0"></label><strong>Goal-seek algorithm</strong>: Test with 100+ scenarios; verify convergence</li>
+<li><input type="checkbox" id="checkbox1"><label for="checkbox1"></label><strong>KRD matching</strong>: Confirm Risk_Free method is ALWAYS used (line 92-97)</li>
+<li><input type="checkbox" id="checkbox2"><label for="checkbox2"></label><strong>Spread cap</strong>: ADD enforcement logic or document exception</li>
+<li><input type="checkbox" id="checkbox3"><label for="checkbox3"></label><strong>D&amp;D formula</strong>: Verify $1-(1-X)^t$ applied to both MV and CF</li>
+<li><input type="checkbox" id="checkbox4"><label for="checkbox4"></label><strong>Rebalancing</strong>: Test up-to-3-iteration loop with early exit</li>
+<li><input type="checkbox" id="checkbox5"><label for="checkbox5"></label><strong>Edge cases</strong>: Run all 20 edge case tests; document failures</li>
+<li><input type="checkbox" id="checkbox6"><label for="checkbox6"></label><strong>Regressions</strong>: Setup baseline; monitor for drift</li>
+<li><input type="checkbox" id="checkbox7"><label for="checkbox7"></label><strong>Known gaps</strong>: Document spread cap, callable bonds, D&amp;D limits</li>
+</ul>
+<hr>
+<p><strong>Document</strong>: SBA BEL Implementation Specification<br>
+<strong>Status</strong>: Active development<br>
+<strong>Last Updated</strong>: March 24, 2026<br>
+<strong>Next</strong>: Execute PHASE3 test suite</p>
+
+</body>
+</html>
