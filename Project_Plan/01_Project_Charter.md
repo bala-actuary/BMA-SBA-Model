@@ -216,4 +216,5 @@ This project will build **BMA's official SBA benchmark model** - a transparent, 
 | Risk Assessment | `Project_Plan/06_Risk_Assessment.md` |
 | Technology Stack | `Project_Plan/07_Technology_Stack.md` |
 | BMA SBA Consolidated Guide | `BMA_doc/BMA_SBA_Consolidated_Guide.md` |
-| BMA SBA Illustrative Calculation | `BMA_doc/BMA_SBA_Illustrative_Calculation.md` |
+| BMA SBA Illustrative Calculation (Comprehensive) | `BMA_doc/BMA_SBA_Illustrative_Calculation_Comprehensive.md` |
+| BMA SBA ALM Rebalancing Reference | `BMA_doc/BMA_SBA_Rebalancing_Reference.md` |

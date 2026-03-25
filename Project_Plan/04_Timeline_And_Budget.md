@@ -21,7 +21,7 @@
 | Create full directory structure | Senior Dev | 1 day | - |
 | Implement RunConfig dataclass | Senior Dev | 1 day | - |
 | Implement @rule_ref decorator and RuleTrace | Senior Dev | 2 days | - |
-| Jupyter notebook: reproduce BMA illustrative calc | Project Lead + Senior Dev | 3 days | BMA_doc/BMA_SBA_Illustrative_Calculation.md |
+| Jupyter notebook: reproduce BMA illustrative calc | Project Lead + Senior Dev | 3 days | BMA_doc/BMA_SBA_Illustrative_Calculation_Comprehensive.md |
 | Write test_illustrative_calc.py (FAILING) | Project Lead | 2 days | Notebook complete |
 
 **Milestone:** BMA illustrative example reproduced manually in Jupyter. Failing test defines the target.

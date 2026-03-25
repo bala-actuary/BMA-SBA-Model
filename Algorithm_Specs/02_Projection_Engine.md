@@ -739,7 +739,7 @@ After BEL is determined, the implied SBA spread must be checked against the 35bp
 
 ## 6. Worked Example
 
-This section reproduces the golden test values from the BMA Illustrative Calculation (BMA_doc/BMA_SBA_Illustrative_Calculation.md). Every number must match exactly.
+This section reproduces the golden test values from the BMA Illustrative Calculation (BMA_doc/BMA_SBA_Illustrative_Calculation_Comprehensive.md). Every number must match exactly.
 
 ### 6.1 Setup
 

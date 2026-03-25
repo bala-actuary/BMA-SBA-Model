@@ -58,7 +58,9 @@ BMA-SBA-Model/
 │
 ├── BMA_doc/                     # BMA regulatory reference documents
 │   ├── BMA_SBA_Consolidated_Guide.md    # Comprehensive guide to BMA SBA rules
-│   ├── BMA_SBA_Illustrative_Calculation.md # Worked example (integration test target)
+│   ├── BMA_SBA_Illustrative_Calculation_Comprehensive.md # Standalone golden integration test (supersedes original)
+│   ├── BMA_SBA_Rebalancing_Reference.md         # Educational: KRD/TAA rebalancing mechanics
+│   ├── BMA_SBA_Illustrative_Calculation.md      # Original worked example (retained for archive)
 │   ├── BMA_SBA_vs_UK_MA_Comparison.md   # BMA SBA vs UK Matching Adjustment
 │   └── Rules&Handbook/                  # Official BMA regulatory PDFs
 │
@@ -135,6 +137,7 @@ The project is in an **extended planning phase**. Implementation-ready algorithm
 | [Architecture Design](Project_Plan/02_Architecture_Design.md) | Technical architecture and data flow |
 | [Technical Specifications](Project_Plan/05_Technical_Specifications.md) | BMA scenarios, asset schemas, algorithms (cross-refs Algorithm_Specs) |
 | [BMA SBA Consolidated Guide](BMA_doc/BMA_SBA_Consolidated_Guide.md) | Authoritative BMA rule reference |
-| [BMA Illustrative Calculation](BMA_doc/BMA_SBA_Illustrative_Calculation.md) | Worked examples - simple + multi-asset golden integration tests |
+| [BMA Illustrative Calculation (Comprehensive)](BMA_doc/BMA_SBA_Illustrative_Calculation_Comprehensive.md) | Standalone golden integration test — simple intro + full 10-year multi-asset, SII vs SBA notes |
+| [ALM Rebalancing Reference](BMA_doc/BMA_SBA_Rebalancing_Reference.md) | Educational reference: KRD matching, TAA rebalancing, challenge red flags |
 | [Projection Engine Spec](Algorithm_Specs/02_Projection_Engine.md) | Core algorithm - reproduces golden test (BEL=$7,571) |
 | [End-to-End Data Flow](Algorithm_Specs/08_End_to_End_Data_Flow.md) | Module dependencies, run orchestration, audit trail |
