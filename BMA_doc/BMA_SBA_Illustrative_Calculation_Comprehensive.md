@@ -118,6 +118,13 @@ Min_opening_cash(k) = max(0,  [Required_cash_next_year - Net_CF(k)] / (1 + r_k) 
 where r_k is the scenario reinvestment rate for year k.
 
 ### 2.3 Scenario A — Base Case (3.0% flat)
+*   **Scenario:** No change to interest rates.
+*   **Reinvestment Rate:** A flat 3.0% per year.
+*   **Logic:** This scenario serves as our baseline. The required cash (`C₀`) is the amount needed to cover the $802 annual shortfall, accounting for the interest earned on the cash buffer.
+*   **Required Cash `C_base`:** The `C₀` is the present value of the $802 annual shortfall for 4 years, discounted at the 3.0% reinvestment rate:\
+    `C_base = 802/(1.03)¹ + 802/(1.03)² + 802/(1.03)³ + 802/(1.03)⁴ = $2,981`
+*   **Market Value of Bond (T=0):** $4,480 (Calculated in detail in Section 2.3)
+*   **Total Assets for Scenario (Bond + Cash):** $4,480 + $2,981 = **$7,461**
 
 **Required C0 = $2,981**
 
@@ -131,6 +138,13 @@ where r_k is the scenario reinvestment rate for year k.
 | 5 | — | — | +$3,698 (bond matures) | $3,698 |
 
 ### 2.4 Scenario B — Rates Down (1.5% flat) — **BITING**
+*   **Scenario:** All interest rates fall instantly and remain low.
+*   **Reinvestment Rate:** A flat 1.5% per year.
+*   **Logic:** This is a classic reinvestment risk scenario. The interest earned on our cash buffer will be lower, meaning we must start with a larger initial buffer to cover the same shortfall.
+*   **Required Cash `C_down`:** The `C₀` is the present value of the $802 annual shortfall for 4 years, discounted at the 1.5% reinvestment rate:\
+    `C_down = 802/(1.015)¹ + 802/(1.015)² + 802/(1.015)³ + 802/(1.015)⁴ = $3,091`
+*   **Market Value of Bond (T=0):** $4,480 (Calculated in detail in Section 2.3)
+*   **Total Assets for Scenario (Bond + Cash):** $4,480 + $3,091 = **$7,571**
 
 **Required C0 = $3,091** — largest of all 5 scenarios
 
@@ -146,6 +160,13 @@ where r_k is the scenario reinvestment rate for year k.
 **Why rates down is biting:** At 1.5%, the interest earned on the cash buffer is less than at 3%, so the buffer depletes faster. A larger starting buffer is required to reach Year 4 without going negative.
 
 ### 2.5 Scenario C — Rates Up (5.0% flat)
+*   **Scenario:** All interest rates rise instantly and remain high.
+*   **Reinvestment Rate:** A flat 5.0% per year.
+*   **Logic:** The higher return earned on our cash buffer means we need to set aside less initial capital to cover the future shortfalls.
+*   **Required Cash `C_up`:** The `C₀` is the present value of the $802 annual shortfall for 4 years, discounted at the 5.0% reinvestment rate:\
+    `C_up = 802/(1.05)¹ + 802/(1.05)² + 802/(1.05)³ + 802/(1.05)⁴ = $2,844`
+*   **Market Value of Bond (T=0):** $4,480 (Calculated in detail in Section 2.3)
+*   **Total Assets for Scenario (Bond + Cash):** $4,480 + $2,844 = **$7,324**
 
 **Required C0 = $2,844** — smallest C0 (higher returns → smaller buffer needed)
 
@@ -159,6 +180,12 @@ where r_k is the scenario reinvestment rate for year k.
 | 5 | — | — | +$3,698 (bond matures) | $3,698 |
 
 ### 2.6 Scenario D — Twist: Steepener (3.5% → 5.0%)
+*   **Scenario:** The yield curve twists, with short-term rates rising less than long-term rates.
+*   **Reinvestment Rate:** 3.5% for Year 1, 5.0% for Years 2-4.
+*   **Logic:** This tests the portfolio against a change in the *shape* of the yield curve. The calculation is more complex as we cannot use a single rate. We must solve for `C₀` by working backward year-by-year, discounting the remaining shortfall at the prevailing rate for that year.
+*   **Required Cash `C_steep`:** Based on the year-by-year backward calculation, the required initial cash is **$2,885**.
+*   **Market Value of Bond (T=0):** $4,480 (Calculated in detail in Section 2.3)
+*   **Total Assets for Scenario (Bond + Cash):** $4,480 + $2,885 = **$7,365**
 
 **Required C0 = $2,885**
 
@@ -172,6 +199,12 @@ where r_k is the scenario reinvestment rate for year k.
 | 5 | — | — | — | +$3,698 | $3,698 |
 
 ### 2.7 Scenario E — Twist: Flattener (2.0% → 1.5%)
+*   **Scenario:** The yield curve flattens, with short-term rates falling while long-term rates fall even more.
+*   **Reinvestment Rate:** 2.0% for Year 1, 1.5% for Years 2-4.
+*   **Logic:** This is another reinvestment stress, similar to the "Rates Down" scenario but with a non-parallel shift. We must solve for `C₀` by working backward year-by-year, discounting the remaining shortfall at the prevailing rate for that year.
+*   **Required Cash `C_flat`:** Based on the year-by-year backward calculation, the required initial cash is **$3,076**.
+*   **Market Value of Bond (T=0):** $4,480 (Calculated in detail in Section 2.3)
+*   **Total Assets for Scenario (Bond + Cash):** $4,480 + $3,076 = **$7,556**
 
 **Required C0 = $3,076**
 
@@ -471,6 +504,13 @@ Precision: within $1.00 (xtol = 1e-2 per ALGO-002)
 ```
 
 A backward algebraic derivation produces the same answer — the numerical approach is preferred in production for generality and for handling the disinvestment waterfall non-linearities.
+
+For each scenario, we solve for the **minimum** initial cash C0 such that the cash balance never drops below zero in any year. The method is to **work backward** from Year 10:
+
+1.  Set Required Cash at end of Year 10 = $0.
+2.  For each year k (from 10 down to 1), compute the minimum opening cash needed so that: `Opening_Cash x (1 + r_k) + Net_CF_k >= Required_Cash_next_year`, where r_k is the scenario reinvestment rate for year k.
+3.  If the computed minimum is negative, set it to zero (you can't have negative cash).
+4.  The Required Cash at the start of Year 1 is C0.
 
 ### 7.4 Period-by-Period Projection: Scenario A (Base — 3.0% flat)
 
