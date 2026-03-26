@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 BMA SBA Benchmark Model — a **regulator's independent verification tool** for the Bermuda Monetary Authority (BMA) to verify insurance companies' Scenario-Based Approach (SBA) submissions. This is a Python desktop calculation engine (not a web app), designed to run on standard Windows workstations with no infrastructure dependencies.
 
-**Current status:** Planning phase. No source code exists yet. The repo contains project planning docs (`Project_Plan/`), regulatory reference material (`BMA_doc/`), implementation-ready algorithm specifications (`Algorithm_Specs/`), and prior-art reference from another SBA model (`Reference_Documents/`). Code implementation has not started.
+**Current status:** Planning phase. No source code exists yet. The repo contains project planning docs (`Project_Plan/`), all regulatory and study reference material consolidated in (`BMA_doc/`), and implementation-ready algorithm specifications (`Algorithm_Specs/`). Code implementation has not started.
 
 ## Target Architecture
 
@@ -62,13 +62,21 @@ python -m bma_sba_benchmark challenge --company ACME --submission acme_sba_2024.
 - **Asset tiers:** Tier 1 (unrestricted), Tier 2 (BMA pre-approval), Tier 3 (10% cap, cannot be sold).
 - **Credit costs:** Default + downgrade with phase-in (20% in 2024 → 100% by 2028).
 - **Disinvestment waterfall:** Cash → Govt bonds → IG corp → Muni → Tier 2. Tier 3 cannot be sold.
-- The BMA illustrative calculation (`BMA_doc/BMA_SBA_Illustrative_Calculation_Comprehensive.md`) is the golden integration test target (standalone, supersedes the earlier `BMA_SBA_Illustrative_Calculation.md`).
+- The BMA illustrative calculation (`BMA_doc/BMA_SBA_Illustrative_Calculation_Comprehensive.md`) is the golden integration test target.
 
 ## Repository Layout
 
 - `Algorithm_Specs/` — **Implementation-ready algorithm specifications** (10 docs). Each maps to a target code module with pseudocode, BMA rule references, and worked numerical examples. Start here when implementing any module.
 - `Project_Plan/` — Project planning docs (01 through 07). Start with `01_Project_Charter.md`.
-- `BMA_doc/` — BMA regulatory reference. `BMA_SBA_Consolidated_Guide.md` is the authoritative rule reference. `BMA_SBA_Illustrative_Calculation_Comprehensive.md` is the golden integration test target (standalone; includes simple 5-year intro case, full 10-year multi-asset example, SII vs SBA comparison notes, and all 15 sections). `BMA_SBA_Rebalancing_Reference.md` is an educational reference on ALM rebalancing mechanics (KRD/TAA) for challenging company submissions.
-- `Reference_Documents/` — Prior-art reference from Pythora v1.0.0 (another SBA BEL model). Use for context only — NOT specs to implement directly. Key lessons already extracted into `Algorithm_Specs/`.
+- `BMA_doc/` — **All reference and study material in one place:**
+  - `SBA_Study_Reference.md` — Primary study guide (based on JP Morgan whitepaper, includes mathematical formulations)
+  - `SBA_Quick_Reference_Cheat_Sheet.md` — Quick lookup, every entry traced to exact BMA rule paragraph
+  - `BMA_SBA_Consolidated_Guide.md` — Authoritative regulatory reference
+  - `BMA_SBA_vs_UK_MA_Comparison.md` — BMA SBA vs UK Matching Adjustment comparison
+  - `BMA_SBA_Illustrative_Calculation_Comprehensive.md` — Golden integration test target (simple 5-year intro + full 10-year multi-asset, all 15 sections)
+  - `BMA_SBA_Rebalancing_Reference.md` — Educational reference on ALM rebalancing (KRD/TAA) for challenging company submissions
+  - `EXECUTIVE-SUMMARY-SBA-BEL-Actuary-OnBoarding.md` — Onboarding guide for actuaries
+  - `IMPLEMENTATION-SPECIFICATION-SBA-BEL-Developer.md` — Developer architecture specification
+  - `Rules&Handbook/` — Official BMA Rules PDF and Handbook PDF
 - `NAIC_Doc/` — Comparative regulatory docs (BMA SBA vs NAIC CFT).
-- `Archive/`, `Python_Implementation/`, `Julia_Implementation/`, `Hybrid_Implementation/` — Superseded earlier architecture explorations. Retained for reference only.
+- `Archive/` — Superseded documents and earlier architecture explorations. Not tracked in git.

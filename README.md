@@ -56,13 +56,16 @@ BMA-SBA-Model/
 │   ├── 06_Risk_Assessment.md        # Risk register with mitigations
 │   └── 07_Technology_Stack.md       # Technology choices and justifications
 │
-├── BMA_doc/                     # BMA regulatory reference documents
-│   ├── BMA_SBA_Consolidated_Guide.md    # Comprehensive guide to BMA SBA rules
-│   ├── BMA_SBA_Illustrative_Calculation_Comprehensive.md # Standalone golden integration test (supersedes original)
-│   ├── BMA_SBA_Rebalancing_Reference.md         # Educational: KRD/TAA rebalancing mechanics
-│   ├── BMA_SBA_Illustrative_Calculation.md      # Original worked example (retained for archive)
-│   ├── BMA_SBA_vs_UK_MA_Comparison.md   # BMA SBA vs UK Matching Adjustment
-│   └── Rules&Handbook/                  # Official BMA regulatory PDFs
+├── BMA_doc/                     # All reference and study material (single location)
+│   ├── SBA_Study_Reference.md                 # Primary study guide (JP Morgan whitepaper + math formulations)
+│   ├── SBA_Quick_Reference_Cheat_Sheet.md     # Quick lookup, rule-traced
+│   ├── BMA_SBA_Consolidated_Guide.md          # Authoritative regulatory reference
+│   ├── BMA_SBA_vs_UK_MA_Comparison.md         # BMA SBA vs UK Matching Adjustment
+│   ├── BMA_SBA_Illustrative_Calculation_Comprehensive.md # Golden integration test target
+│   ├── BMA_SBA_Rebalancing_Reference.md       # Educational: KRD/TAA rebalancing for challenging submissions
+│   ├── EXECUTIVE-SUMMARY-SBA-BEL-Actuary-OnBoarding.md  # Onboarding guide for actuaries
+│   ├── IMPLEMENTATION-SPECIFICATION-SBA-BEL-Developer.md # Developer architecture spec
+│   └── Rules&Handbook/                        # Official BMA regulatory PDFs
 │
 ├── NAIC_Doc/                    # Comparative regulatory documentation
 │   ├── NAIC_CFT_ComprehensiveGuide.md       # NAIC Cash Flow Testing guide
@@ -80,21 +83,11 @@ BMA-SBA-Model/
 │   ├── 07_Data_Schemas_And_Sample_Inputs.md  # Pydantic schemas, sample test data
 │   └── 08_End_to_End_Data_Flow.md     # Module dependencies, run orchestration, audit trail
 │
-├── Reference_Documents/         # Prior-art reference from Pythora v1.0.0 (another SBA model)
-│   ├── PHASE1-*.md                 # Architecture & algorithm docs (10 files)
-│   ├── PHASE2-*.md                 # Code verification findings (5 files)
-│   └── PHASE3-*.md                 # Test specifications (7 files)
-│
-├── Archive/                     # Superseded earlier documents
-│   └── (earlier summary documents)
-│
-└── [Legacy Planning Docs]       # Prior architecture explorations (for reference only)
-    ├── Python_Implementation/       # Initial Python-only design docs
-    ├── Julia_Implementation/        # Initial Julia-only design docs
-    └── Hybrid_Implementation/       # Hybrid Python+Julia analysis
+└── Archive/                     # Superseded documents (not tracked in git)
+    └── (Pythora prior-art analysis, earlier architecture explorations, superseded docs)
 ```
 
-> **Note:** The `Python_Implementation/`, `Julia_Implementation/`, and `Hybrid_Implementation/` folders contain earlier architecture explorations that have been superseded by the current approach documented in `Project_Plan/`. They are retained for reference and historical context.
+> **Note:** Earlier architecture explorations (`Python_Implementation/`, `Julia_Implementation/`, `Hybrid_Implementation/`) and Pythora prior-art analysis have been moved to `Archive/` (not tracked in git). All key lessons are captured in `Algorithm_Specs/`.
 
 ## Architecture Summary
 
@@ -135,9 +128,11 @@ The project is in an **extended planning phase**. Implementation-ready algorithm
 |---|---|
 | [Project Charter](Project_Plan/01_Project_Charter.md) | Start here - project vision and scope |
 | [Architecture Design](Project_Plan/02_Architecture_Design.md) | Technical architecture and data flow |
-| [Technical Specifications](Project_Plan/05_Technical_Specifications.md) | BMA scenarios, asset schemas, algorithms (cross-refs Algorithm_Specs) |
-| [BMA SBA Consolidated Guide](BMA_doc/BMA_SBA_Consolidated_Guide.md) | Authoritative BMA rule reference |
-| [BMA Illustrative Calculation (Comprehensive)](BMA_doc/BMA_SBA_Illustrative_Calculation_Comprehensive.md) | Standalone golden integration test — simple intro + full 10-year multi-asset, SII vs SBA notes |
-| [ALM Rebalancing Reference](BMA_doc/BMA_SBA_Rebalancing_Reference.md) | Educational reference: KRD matching, TAA rebalancing, challenge red flags |
-| [Projection Engine Spec](Algorithm_Specs/02_Projection_Engine.md) | Core algorithm - reproduces golden test (BEL=$7,571) |
+| [SBA Study Reference](BMA_doc/SBA_Study_Reference.md) | Primary study guide — conceptual depth, mathematical formulations |
+| [Quick Reference Cheat Sheet](BMA_doc/SBA_Quick_Reference_Cheat_Sheet.md) | Fast lookup, every entry traced to BMA rule paragraph |
+| [BMA SBA Consolidated Guide](BMA_doc/BMA_SBA_Consolidated_Guide.md) | Authoritative BMA regulatory reference |
+| [BMA SBA vs UK MA Comparison](BMA_doc/BMA_SBA_vs_UK_MA_Comparison.md) | BMA SBA vs UK Matching Adjustment comparison |
+| [Illustrative Calculation (Comprehensive)](BMA_doc/BMA_SBA_Illustrative_Calculation_Comprehensive.md) | Golden integration test — simple 5-year intro + full 10-year multi-asset |
+| [ALM Rebalancing Reference](BMA_doc/BMA_SBA_Rebalancing_Reference.md) | KRD matching, TAA rebalancing — for challenging company submissions |
+| [Projection Engine Spec](Algorithm_Specs/02_Projection_Engine.md) | Core algorithm - reproduces golden test |
 | [End-to-End Data Flow](Algorithm_Specs/08_End_to_End_Data_Flow.md) | Module dependencies, run orchestration, audit trail |
