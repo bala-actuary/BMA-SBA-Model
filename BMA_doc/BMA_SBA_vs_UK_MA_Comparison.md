@@ -1,5 +1,7 @@
 # Comparative Analysis: BMA SBA vs. UK Solvency II Matching Adjustment
 
+> **Review note (2026-04-08):** This document is a high-level conceptual comparison. It is accurate at the strategic level but intentionally omits technical SBA details (scenario mechanics, D&D cumulative formulas, yield curve construction, idiosyncratic spread adjustment, etc.). For technical SBA reference, use `BMA_SBA_Consolidated_Guide.md` (v2.0).
+
 ## 1. Executive Summary
 This document provides a comparative analysis of two advanced regulatory frameworks for insurance liability valuation: the Bermuda Monetary Authority's (BMA) **Scenario-Based Approach (SBA)** and the UK Prudential Regulation Authority's (PRA) **Matching Adjustment (MA)** under Solvency II.
 

@@ -2,6 +2,14 @@
 
 > Based on J.P. Morgan Asset Management: *"Untangling Complexity — A Step-by-Step Guide to Crafting Optimal Portfolios under the Bermuda Scenario Based Approach"* and supporting mathematical formulations.
 
+> **Important disclaimer (added 2026-04-08):** This document reflects **J.P. Morgan's asset management perspective** on the SBA, not the BMA's regulatory requirements. It was created from a marketing paper aimed at institutional investors building SBA portfolios. Key differences from the official BMA Rules and Handbook include:
+>
+> - The "discounting liabilities at RFR + illiquidity premium" framing is a conceptual simplification. The BMA Rules (Para 28(10)) define BEL as the **highest asset requirement across 9 scenarios** — an asset-side projection exercise, not a liability-discounting exercise. The illiquidity premium is a derived quantity, not an input.
+> - The theta/lambda scaling and portfolio optimisation framework (Sections 7–10) is **J.P. Morgan's proprietary methodology** for portfolio construction, not the regulatory BEL calculation. The BMA Rules simply require determining the assets needed to cover liabilities under each scenario.
+> - Several regulatory details are missing or simplified (yield curve construction methodology, idiosyncratic spread adjustment, default/downgrade cost mechanics, governance requirements, BSCR SBA offset). For implementation, refer to `BMA_SBA_Consolidated_Guide.md` (v2.0).
+>
+> Corrections to specific inaccuracies have been applied inline and marked with **[Corrected]** tags.
+
 ---
 
 ## Table of Contents
@@ -29,7 +37,7 @@
 
 Life insurers holding long-dated, predictable liabilities (e.g. pension annuities) can invest in illiquid fixed income assets and hold them to maturity. By doing so, they earn a yield premium over the risk-free rate — the **illiquidity premium** — without being exposed to mark-to-market losses, because they never need to sell.
 
-The SBA is the regulatory framework that allows Bermuda insurers to **pass this illiquidity premium through to the liability valuation** — discounting liabilities at a higher rate than the risk-free curve, thereby reducing the Best Estimate of Liabilities (BEL) and improving the solvency position.
+The SBA is the regulatory framework that allows Bermuda insurers to **recognise the illiquidity premium in the liability valuation**. **[Corrected — note on framing]** While this is often described as "discounting liabilities at a higher rate," the BMA Rules actually define BEL as the highest asset requirement across 9 interest rate scenarios (Para 28(10)) — an asset-side projection exercise. The illiquidity premium is the residual yield advantage that emerges from the asset portfolio after default adjustments, not a prescribed discount rate input. The economic effect is similar (lower BEL, improved solvency position), but the regulatory mechanism is fundamentally different from simple liability discounting.
 
 ### The Core Value Proposition
 
@@ -76,7 +84,7 @@ Other Assets                        (discounted at RFR only)
 
 ### 2.1 Purpose
 
-The SBA enables insurers to discount life (re)insurance liabilities at a higher rate than the risk-free curve by incorporating an illiquidity premium derived from the asset portfolio backing the liabilities.
+The SBA enables insurers to determine BEL through asset-liability cash flow projection under 9 interest rate scenarios, which in practice results in a lower BEL than the Standard Approach due to the illiquidity premium embedded in the asset portfolio. **[Corrected — see disclaimer at top for framing note]**
 
 The framework rests on three key conditions:
 
@@ -102,7 +110,7 @@ Where policyholder options exist, three additional tests must be passed:
 | Test | Description |
 |---|---|
 | Lapse Cost (LapC) | Added to SBA BEL: `(1 SD lapse rate / BSCR lapse stress) × lapse capital requirement` |
-| 100% ECR under lapse stress | Maintain 100% ECR coverage under a 40% lapse up or down event |
+| 100% ECR under lapse stress | Maintain 100% ECR coverage under the **BSCR lapse up/down stresses** as prescribed under Para 44A of Schedule I **[Corrected — the "40%" is not specified in the SBA rules; it's a BSCR parameter that may change]** |
 | 3-month liquidity coverage ratio | Maintain 105% liquidity coverage ratio over 3-month horizon |
 
 **Important:** Insurance contracts cannot be split to achieve SBA eligibility — the option must stay attached to the policy.
@@ -174,9 +182,11 @@ Use liquidity proxies such as bid-ask spread, market depth, and trading intensit
 
 ### 3.3 The SBA Approach to Illiquidity Premium
 
-Under the SBA, the BMA prescribes default and downgrade costs derived from average historical default rates. These are used to haircut asset cash flows, and the illiquidity premium is then defined as:
+Under the SBA, the BMA prescribes default and downgrade costs derived from average historical default rates. These are used to haircut asset cash flows. The illiquidity premium can then be **derived** (not defined by the BMA) as:
 
 $$\text{Illiquidity Premium} = \text{IRR}(\text{default-adjusted asset CFs}) - \text{IRR}(\text{liability CFs at risk-free rate})$$
+
+**[Corrected]** Note: This formula is JP Morgan's derived measure. The BMA Rules do not define or use the term "illiquidity premium" in the SBA calculation itself — the BMA simply requires determining the highest asset requirement across 9 scenarios. The illiquidity premium is an analytical quantity useful for understanding the SBA benefit, not a regulatory input.
 
 ---
 
@@ -278,12 +288,11 @@ SBA assets must be **ringfenced exclusively** for meeting the policyholder liabi
 
 ### 5.3 Special Treatment of 258E Assets Without Fixed Maturity
 
-In the rare case that a 258E asset has no fixed maturity date (e.g. an open-ended fund or perpetual instrument):
+**[Corrected]** In the rare case that a 258E asset has no fixed maturity date (e.g. an open-ended fund or perpetual instrument):
 
-- Upon **sale**, it must be assigned **zero value** in the SBA model
-- This is a **regulatory modelling penalty** — not a reflection of actual market value
-- The rationale: the SBA model cannot reliably project the sale proceeds of an instrument with uncertain liquidation timing and price
-- **Recommended approach:** Defer any sale as long as possible by prioritising 258C asset sales first; allow the 258E asset to remain in the portfolio generating cash flows until the last possible moment
+- Per the Rules (Para 28(16)(f)), limited-basis assets **shall not be sold to meet cashflow shortfalls** in SBA projections. However, an exception may exist for assets with no contractual maturity date where **a different treatment has been approved by the Authority** subject to conditions set by the Authority.
+- The "zero value on sale" treatment described in the JP Morgan paper is **JP Morgan's conservative modelling assumption**, not a BMA regulatory requirement. The actual regulatory position is that these assets cannot be sold for shortfalls unless the BMA has approved alternative treatment.
+- **Practical approach:** Defer any sale as long as possible by prioritising 258C asset sales first; allow the 258E asset to remain in the portfolio generating cash flows until the last possible moment.
 
 **Note on Ringfencing and New Business:** Because of ringfencing, a perpetual 258E asset in one SBA portfolio **cannot** be redeployed to back new business liabilities. New business requires a fresh, separately constructed and ringfenced SBA portfolio.
 
@@ -300,8 +309,8 @@ The BMA prescribes 9 scenarios: the base case plus 8 interest rate stresses desi
 | Base | Current forward rates — no stress |
 | Rate fall up to year 10 | All rates decrease annually to −1.5% by year 10; unchanged thereafter |
 | Rate rise up to year 10 | All rates increase annually to +1.5% by year 10; unchanged thereafter |
-| Rate fall up to year 5 | All rates decrease annually to −1.5% by year 5; unchanged thereafter |
-| Rate rise up to year 5 | All rates increase annually to +1.5% by year 5; unchanged thereafter |
+| Down-Up (rate fall then recovery) | All rates decrease annually to −1.5% by year 5, then **return to base by year 10** **[Corrected]** |
+| Up-Down (rate rise then recovery) | All rates increase annually to +1.5% by year 5, then **return to base by year 10** **[Corrected]** |
 | Decrease with positive twist | Year 1: −1.5%, Year 10: −1.0%, Year 30: −0.5% (interpolate) |
 | Decrease with negative twist | Year 1: −0.5%, Year 10: −1.0%, Year 30: −1.5% (interpolate) |
 | Increase with positive twist | Year 1: +0.5%, Year 10: +1.0%, Year 30: +1.5% (interpolate) |
@@ -340,6 +349,19 @@ Where:
 
 **Example:** A BBB corporate bond with 2.5% BMA default cost contributes only 97.5% of its coupon/principal toward meeting liabilities in the projection.
 
+**[Corrected — important simplification warning]:** This single-period flat haircut formula is a simplified illustration. The BMA's actual requirement (Handbook E10.3) uses **cumulative loss rates** (and marginal loss rates) that increase over time. The correct implementation uses cumulative survival factors:
+- `cumulative_survival(t) = (1 - cumulative_default_rate(t)) × (1 - cumulative_downgrade_rate(t) × phase_in_factor)`
+- `adjusted_CF(t) = promised_CF(t) × cumulative_survival(t)`
+
+Key differences from this simplified formula:
+- Cumulative rates are **non-decreasing** over time (Handbook E10.6 — marginal loss rates floored at zero)
+- Default and downgrade components are **separated** — only downgrade has a 5-year phase-in for pre-2024 business (E10.8)
+- D&D costs do **NOT affect t=0 market values** or reinvestment purchase prices (E10.5)
+- Government debt rated AA- or better in local currency is **exempt** from D&D costs (E10.19)
+- For assets without BMA-published costs, floors = corporate senior unsecured (E10.16)
+
+See `BMA_SBA_Consolidated_Guide_v2.0.md` Section 15 for the complete mechanics.
+
 ### 6.3 Transaction Costs
 
 Realistic transaction costs must be applied to all assets bought and sold in the SBA projections:
@@ -356,7 +378,7 @@ The core of the SBA is a **dynamic asset-liability projection model** that:
 3. In each projection year: compares asset cash inflows to liability cash outflows
 4. **Excess cash flows** → reinvested into new eligible assets
 5. **Negative net cash flows** → assets sold (258C only) to meet shortfall immediately (cannot be rolled forward)
-6. Over the full lifetime: model must end with **zero surplus** (zero assets AND zero liabilities)
+6. Over the full lifetime: model determines the **minimum assets required** to cover all liability cash flows through to maturity **[Corrected — the "zero surplus" / "zero assets AND zero liabilities" terminal condition is JP Morgan's optimisation framing (theta scaling to exactly meet obligations). The BMA Rules (Para 28(10)) require determining the assets needed to cover liability cash flows — conceptually equivalent but not expressed as a zero-surplus target]**
 
 This is a significantly more complex model than the UK MA, which requires a strictly buy-and-hold portfolio with no reinvestment or disinvestment.
 
@@ -382,7 +404,7 @@ When asset cash flows are insufficient to meet liability cash flows:
 - The disinvestment strategy must align to the insurer's actual investment management practices
 
 **Special case — 258E asset without fixed maturity:**
-- If forced to sell, model assigns **zero proceeds**
+- **[Corrected]** The Rules (Para 28(16)(f)) state these assets cannot be sold for shortfalls, but the BMA may approve alternative treatment for no-maturity assets. The "zero proceeds on sale" is JP Morgan's conservative modelling choice, not a regulatory mandate.
 - Mitigation: prioritise 258C sales and defer 258E sale as far as possible into the future
 
 **Projected sale prices** must reflect the scenario-specific interest rate environment at the point of sale (e.g. bond prices fall in rising rate scenarios).
@@ -427,6 +449,8 @@ The BMA requires formal documentation of matching quality. Insurers must define 
 ---
 
 ## 7. BEL Calculation — Mathematical Formulation
+
+> **[Corrected — editorial note]:** The mathematical formulation below (lambda/theta scaling, optimisation framework) is **J.P. Morgan's proprietary portfolio construction methodology**, not the BMA's prescribed BEL calculation. The BMA Rules (Para 28(10)) simply require: (a) determine assets needed under base scenario, (b) determine assets needed under each stress scenario, (c) BEL = the highest requirement across all 9 scenarios. JP Morgan's scaling approach is one valid way to find this answer, but it is not the only approach and is not prescribed by the regulator. This section remains valuable as an educational exposition of the underlying mathematics.
 
 ### 7.1 Conceptual Foundation
 
@@ -495,9 +519,13 @@ $$Sale_{t,s} \geq (L_{t,s} + \text{Exp}_{t,s}) - (\text{Organic Asset CF} + \tex
 
 $$\text{Surplus}_{T,s} = 0$$
 
+**[Corrected]:** The "terminal surplus = 0" constraint is JP Morgan's theta-scaling formulation. The BMA Rules (Para 28(10)) simply require determining the **minimum assets needed** to cover all liability cash flows through to maturity under each scenario. The regulatory approach is: for a given asset portfolio, find the minimum initial cash buffer (C0) such that the cash balance never goes negative at any timestep — i.e., `min(cash_balance_t) >= 0 for all t`. The two formulations are mathematically related but conceptually different: JP Morgan scales the portfolio (theta), while the regulatory approach fixes the portfolio and solves for the cash buffer (C0).
+
 ### 7.5 The Default Adjustment — Detail
 
 $$\text{Adjusted CF}_{t,s} = \text{Promised CF}_{t,s} \times (1 - \text{CoD}_{R,K})$$
+
+**[Corrected]:** This is the same simplified formula as Section 6.2. See the correction note there for the actual BMA cumulative survival factor mechanics (E10.3-E10.6). The single-period flat CoD understates the time-varying nature of default and downgrade costs.
 
 **Impact on BEL:** A higher CoD (lower rated asset) reduces the adjusted cash flows available to meet liabilities, requiring a larger initial portfolio (higher $\lambda$ or $\theta$) to meet the same obligations — directly increasing the BEL.
 
@@ -506,6 +534,8 @@ $$\text{Adjusted CF}_{t,s} = \text{Promised CF}_{t,s} \times (1 - \text{CoD}_{R,
 ### 7.6 The SBA Illiquidity Premium
 
 $$\text{Illiquidity Premium} = \text{IRR}(\text{default-adjusted asset CFs}) - \text{IRR}(\text{liability CFs at risk-free rate})$$
+
+**[Corrected]** This is JP Morgan's derived analytical measure, not a BMA-defined quantity. The BMA does not prescribe or reference the illiquidity premium in the SBA rules — it is a useful way to quantify the SBA benefit but is not part of the regulatory calculation.
 
 In the JP Morgan case study, this achieved **179bps** versus approximately **133bps** under the UK MA — a material advantage driven by access to higher-yielding assets, the 258E bucket, and the flexibility of reinvestment/disinvestment modelling.
 
@@ -605,9 +635,19 @@ Assume: 3-year projection, single scenario, no reinvestment income for simplicit
 
 **Iterate between 0.85 and 1.0 until Terminal Surplus = 0** → this is θ* for this scenario.
 
+**[Corrected — important context]:** This numerical example illustrates JP Morgan's theta-scaling approach. While the mathematics is valid as a portfolio construction tool, it has three simplifications that do not reflect the BMA's actual requirements:
+
+1. **No default/downgrade adjustment** — The example uses raw asset CFs. The BMA requires cumulative survival factors applied to all projected asset cash flows (Para 28(22)-(23), E10.3).
+2. **No transaction costs on disinvestment** — When 258C assets are sold (D₁, D₂), the proceeds should be reduced by bid-ask costs and cumulative D&D (Para 28(30)-(31), Para 28(34)(c), E11.2).
+3. **Theta scales the entire portfolio uniformly** — The BMA does not prescribe portfolio scaling. The regulatory approach is: given a fixed portfolio, find the minimum cash buffer (C0) needed so the cash balance stays non-negative at every timestep across all 9 scenarios (Para 28(10)).
+
+For a worked example that follows the BMA's actual methodology, see `BMA_doc/BMA_SBA_Illustrative_Calculation_Comprehensive.md`.
+
 ---
 
 ## 9. Liability Scaling — SBA vs Standard Carve-Out
+
+> **[Corrected — editorial note]:** The "liability scaling" and "SBA vs Standard carve-out" concept below is JP Morgan's practical design pattern for portfolio construction. The BMA Rules (Para 28(1)) simply state that insurance groups may apply SBA "to some or all of long-term business." The Rules do not prescribe a theta-based liability scaling mechanism — this is JP Morgan's interpretation of how to handle partial SBA coverage.
 
 ### 9.1 When Assets < Liabilities
 
@@ -660,6 +700,14 @@ $$\min_{\text{portfolio weights}} \left[ \text{MV}_0 \text{ subject to all const
 - Net duration within ±1 year
 - Net key rate durations within ±1 year
 - Illiquid assets below 20%
+
+**[Corrected]:** These are labelled "regulatory constraints" but they are actually a **mix of BMA rules and JP Morgan's own investment management constraints**. Of the above, only the following are BMA-mandated:
+- Positive net cash flows reinvested per declared strategy (Para 28(33))
+- Negative net cash flows met by selling eligible (Tier 1/2) assets only (Para 28(34)(a))
+- 258E (limited-basis) assets cannot be sold for shortfalls (Para 28(16)(f))
+- 258E assets capped at 10% aggregate, 0.5% per single asset (Para 28(16)(a),(d))
+
+The BSCR < 4% target, ±1 year duration/KRD limits, 20% illiquid cap, and "net assets = zero at runoff" are JP Morgan's risk management and optimisation constraints — reasonable but not BMA-prescribed.
 
 ### 10.3 Case Study Results (JP Morgan, June 2024)
 

@@ -650,9 +650,11 @@ assert sba_bel > sii_bel_at_rf  # SBA BEL always >= SII BEL at RF for this portf
 ## Section 9: SBA Spread & 35bps Cap Enforcement
 
 *Validates: ALGO-004, `calculations/bel_calculator.py`*
-*BMA Rule: Handbook E9 (spread consistency, regulatory cap)*
+*BMA Rule: Handbook E9 (spread consistency)*
 
-> **Prior art failure:** Pythora v1.0.0 (Athora SBA model) defined the 35bps cap parameter but has **zero enforcement references in the codebase** (confirmed by grep in `PHASE3-006-Known-Gaps-Limitations.md`). This benchmark enforces the cap explicitly from day one. This is a primary purpose of the model.
+> **Verification note (added 2026-04-08):** The 35bps spread cap is referenced in the Athora/Pythora prior-art implementation and was adopted into this illustrative calculation, but it **cannot be traced to a specific paragraph in the 2024 BMA Rules (Schedule XXV) or Handbook**. A thorough review of both source PDFs (April 2026) found no mention of a 35bps cap. It may originate from a company-specific BMA approval condition, a pre-2024 regulatory requirement, or an industry convention. **This should be verified with the BMA before treating it as a universal regulatory constraint.** If confirmed as non-regulatory, ALGO-004 should be refactored as an optional parameter.
+
+> **Prior art note:** Pythora v1.0.0 (Athora SBA model) defined the 35bps cap parameter but had **zero enforcement references in the codebase** (confirmed by grep in `PHASE3-006-Known-Gaps-Limitations.md`). Regardless of whether the cap is a universal BMA requirement, the fact that Pythora configured it but never enforced it is an instructive governance failure.
 
 ### 9.1 What is the Implied SBA Spread?
 

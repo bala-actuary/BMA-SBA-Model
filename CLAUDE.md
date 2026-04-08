@@ -68,15 +68,14 @@ python -m bma_sba_benchmark challenge --company ACME --submission acme_sba_2024.
 
 - `Algorithm_Specs/` — **Implementation-ready algorithm specifications** (10 docs). Each maps to a target code module with pseudocode, BMA rule references, and worked numerical examples. Start here when implementing any module.
 - `Project_Plan/` — Project planning docs (01 through 07). Start with `01_Project_Charter.md`.
-- `BMA_doc/` — **All reference and study material in one place:**
-  - `SBA_Study_Reference.md` — Primary study guide (based on JP Morgan whitepaper, includes mathematical formulations)
-  - `SBA_Quick_Reference_Cheat_Sheet.md` — Quick lookup, every entry traced to exact BMA rule paragraph
-  - `BMA_SBA_Consolidated_Guide.md` — Authoritative regulatory reference
-  - `BMA_SBA_vs_UK_MA_Comparison.md` — BMA SBA vs UK Matching Adjustment comparison
-  - `BMA_SBA_Illustrative_Calculation_Comprehensive.md` — Golden integration test target (simple 5-year intro + full 10-year multi-asset, all 15 sections)
-  - `BMA_SBA_Rebalancing_Reference.md` — Educational reference on ALM rebalancing (KRD/TAA) for challenging company submissions
-  - `EXECUTIVE-SUMMARY-SBA-BEL-Actuary-OnBoarding.md` — Onboarding guide for actuaries
-  - `IMPLEMENTATION-SPECIFICATION-SBA-BEL-Developer.md` — Developer architecture specification
+- `BMA_doc/` — **All reference and study material in one place (reviewed and cleaned Apr 2026):**
+  - `BMA_SBA_Consolidated_Guide.md` — **Primary authoritative regulatory reference** (v2.0 — verified against BMA Rules and Handbook PDFs)
+  - `SBA_Quick_Reference_Cheat_Sheet.md` — Quick lookup, every entry traced to exact BMA rule paragraph (includes E9.5, E10 detail, 35bps cap verification note)
+  - `BMA_SBA_Illustrative_Calculation_Comprehensive.md` — Golden integration test target (35bps cap source flagged for verification)
+  - `SBA_Study_Reference.md` — Educational study guide (v2.0 — JP Morgan perspective with corrections and disclaimers)
+  - `BMA_SBA_Rebalancing_Reference.md` — Educational reference on ALM rebalancing for challenging company submissions
+  - `BMA_SBA_vs_UK_MA_Comparison.md` — High-level BMA SBA vs UK MA comparison
+  - `untangling-complexity-bermuda-ba.pdf` — JP Morgan source whitepaper (do not modify)
   - `Rules&Handbook/` — Official BMA Rules PDF and Handbook PDF
 - `NAIC_Doc/` — Comparative regulatory docs (BMA SBA vs NAIC CFT).
-- `Archive/` — Superseded documents and earlier architecture explorations. Not tracked in git.
+- `Archive/` — Superseded and Athora-specific documents. Not tracked in git. Includes: v1.0 versions of consolidated guide and study reference, Athora onboarding guide, Athora implementation spec, PHASE1-010 prior-art docs.

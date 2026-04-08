@@ -319,7 +319,7 @@ Companies may use different reference points for the target allocation:
 The yield at which new bonds can be purchased within the model is constrained:
 
 - Must be consistent with the credit quality of the asset class being purchased
-- Must not exceed the **35bps SBA spread cap** for any single reinvestment (though this is applied at the portfolio level, not per-bond level, in most implementations)
+- **Note on 35bps spread cap (updated 2026-04-08):** The 35bps cap applies to the **implied SBA spread** (a portfolio-level derived quantity), NOT to individual reinvestment bond spreads. A reinvestment bond purchased at RF + 150bps credit spread is permissible; the 35bps cap constrains the overall implied discount rate benefit. **Additionally, the 35bps cap cannot be traced to a specific paragraph in the 2024 BMA Rules or Handbook — verify its source before relying on it as a universal requirement.**
 - Must reflect realistic market conditions in the scenario (not the base curve in a rising-rate scenario)
 
 ---
@@ -493,7 +493,7 @@ This document draws on prior-art specifications from the Athora SBA model (v1.0.
 **BMA regulatory basis:**
 
 - Schedule XXV, Para 28(7)(a-i) — 9 prescribed interest rate scenarios
-- Schedule XXV, Para 28(10) — Tier 3 constraints (10% cap, hold-only)
+- Schedule XXV, Para 28(13)-(16) — Asset tiers and Tier 3 constraints (10% cap, 0.5% single-asset, hold-only) *[Corrected 2026-04-08: was incorrectly cited as Para 28(10), which defines BEL]*
 - `BMA_doc/BMA_SBA_Consolidated_Guide.md` — authoritative rule reference
 
 **BMA benchmark model specifications:**

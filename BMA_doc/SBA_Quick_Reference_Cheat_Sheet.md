@@ -118,6 +118,15 @@ All sales priced at **scenario-prevailing yields**, not par.
 
 New business post-2023 uses 100% from inception.
 
+**Additional D&D mechanics (added 2026-04-08):**
+- D&D costs do **NOT affect initial t=0 market values** or reinvestment purchase prices — only projected future CFs (E10.5)
+- BMA provides annualised costs → convert to **cumulative loss rates** (and marginal); same rate for all CFs within a period (E10.3)
+- **Marginal loss rate must be non-negative** (cumulative non-decreasing); floor at zero with knock-on adjustment (E10.6)
+- **Issuer ratings** should be used (not issue ratings), unless demonstrated no less conservative (E10.12-14)
+- **Government debt exemption:** AA- or better in local currency = zero D&D; also A- or better with reserve-currency status and full fiscal/monetary independence (E10.19)
+- **Floors** for non-BMA-published assets = corporate senior unsecured for corresponding rating; structured assets at tranche level (E10.16)
+- Beyond published tenors: costs kept constant at last published values (implies increasing cumulative losses) (E10.17)
+
 > *Para 28(22-26), pp. 162-163; Handbook E10, pp. 331-334*
 
 ---
@@ -130,6 +139,20 @@ The scenario producing the **highest aggregate asset requirement**. For fungible
 
 ---
 
+## 9a. Idiosyncratic Spread Adjustment (added 2026-04-08)
+
+For each asset, a spread adjustment is determined such that:
+
+```
+PV(projected CFs, RF + applicable spreads + adjustment) = actual market value
+```
+
+This ensures the choice of risk-free curve does **not distort initial asset market values**. The adjustment is carried through all SBA projections for that specific asset. Required whenever the market benchmark curve underlying the asset's value differs from the SBA risk-free curve.
+
+> *Handbook E9.5*
+
+---
+
 ## 10. SBA Spread & 35bps Cap
 
 After computing BEL, the **implied SBA spread** S is defined as:
@@ -139,6 +162,8 @@ PV(Liability CFs, RF + S) = BEL
 ```
 
 If S > 35 bps, the spread is **capped at 35 bps** and BEL is increased accordingly. This prevents insurers from using overly optimistic discount rates.
+
+> **Verification note (added 2026-04-08):** The 35bps spread cap is referenced in the Athora/Pythora prior-art implementation and the BMA Illustrative Calculation document, but **cannot be traced to a specific paragraph in the 2024 BMA Rules or Handbook**. It may originate from a company-specific BMA approval condition or a pre-2024 regulatory requirement. Before relying on this as a universal rule, verify with the BMA directly.
 
 > *Handbook E9, pp. 330-331*
 
@@ -208,3 +233,4 @@ Tier 3 assets are **not eligible** for LCR.
 ---
 
 *Last verified: 2026-03-25 against BMA Rules PDF (Schedule XXV, Para 28) and Handbook (Sections E1-E11).*
+*Updated: 2026-04-08 — added E9.5 idiosyncratic spread, E10.5-E10.19 D&D detail, 35bps cap verification note.*
